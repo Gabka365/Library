@@ -11,6 +11,8 @@ namespace Library.Data
     public class LibraryDbContext : DbContext
     {
         public const string CONNECTION_STRING = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Database=Library";
+        
+        public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
 
@@ -19,6 +21,21 @@ namespace Library.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(CONNECTION_STRING);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Books)
+                .WithMany(x => x.ActualUsers);
+
+            modelBuilder.Entity<Author>()
+                .HasMany(x => x.Books)
+                .WithOne(x => x.Author)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired(false);
+
+            base.OnModelCreating(modelBuilder); 
         }
     }
 }
