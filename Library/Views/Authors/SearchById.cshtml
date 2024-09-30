@@ -1,0 +1,38 @@
+﻿@model Library.Models.SearchByIdViewModel
+
+
+@section Style{
+    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet" />
+}
+
+
+@if (Model.Author is not null)
+{
+    <div class="author">
+        <div>
+            Id: @Model.Author.Id
+        </div>
+        <div>
+            First Name: @Model.Author.FirstName
+        </div>
+        <div>
+            Last Name: @Model.Author.LastName
+        </div>
+        <div>
+            Birthday: @Model.Author.Id
+        </div>
+        <div>
+            Motherland: @Model.Author.Motherland
+        </div>
+    </div>
+
+
+
+}
+else
+{
+    <form class="search-by-id" action="/Authors/SearchById" method="post">
+        Search by id: @Html.TextBoxFor(x => x.Id)
+        <input type="submit" value="Search" />
+    </form>
+}

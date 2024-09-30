@@ -1,0 +1,30 @@
+﻿
+
+.authors .author{
+    margin: 30px;
+    padding: 10px;
+    border: #111213 1px solid;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.authors-panel ul {
+    list-style-type: none;
+}
+
+.authors-panel li {
+    display: flex;
+    flex-flow: column;
+}
+
+.authors .author .crud-functionality {
+    display: flex;
+    flex-flow: column;
+}
+
+.input-block div{
+    display: flex;
+    flex-flow: column;
+    padding-bottom: 20px;
+}

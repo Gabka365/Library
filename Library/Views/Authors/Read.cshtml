@@ -1,0 +1,33 @@
+﻿@model Library.Models.ReadViewModel 
+
+
+@section Style
+{
+    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet"></link>
+}
+
+<div class="authors">
+
+
+
+    @foreach (var author in Model.authors)
+    {
+        <div class="author">
+            <div class="personal-data">
+                <div class="name">
+                    @author.FirstName @author.LastName
+                </div>
+                <div class="birthday">
+                    @author.Birthday.ToString("dd.MM.yyyy")
+                </div>
+                <div class="motherland">
+                    @author.Motherland
+                </div>
+            </div>
+            <div class="crud-functionality">
+                <a href="/Authors/Update?id=@author.Id"> Update information </a>
+                <a href="/Authors/Delete?id=@author.Id"> Delete this author </a>
+            </div>
+        </div>
+    }
+</div>
