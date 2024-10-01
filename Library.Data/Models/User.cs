@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Models
 {
-    public class User
+    public class User : BaseModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
         public virtual List<Book> Books { get; set; }

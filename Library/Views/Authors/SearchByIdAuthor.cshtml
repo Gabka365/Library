@@ -1,13 +1,15 @@
-﻿@model Library.Models.SearchByIdViewModel
+﻿@model Library.Models.Common.SearchByIdViewModel
 
 
 @section Style{
-    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet" />
+    <link href="/css/library.css?v=1.1" rel="stylesheet" />
 }
 
 
 @if (Model.Author is not null)
 {
+    <h2> Searched author </h2>
+
     <div class="author">
         <div>
             Id: @Model.Author.Id
@@ -31,7 +33,9 @@
 }
 else
 {
-    <form class="search-by-id" action="/Authors/SearchById" method="post">
+    <h2> Search author by id </h2>
+
+    <form class="search-by-id" action="/Authors/SearchByIdAuthor" method="post">
         Search by id: @Html.TextBoxFor(x => x.Id)
         <input type="submit" value="Search" />
     </form>

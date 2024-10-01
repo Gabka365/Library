@@ -1,14 +1,12 @@
-﻿@model Library.Models.ReadViewModel 
+﻿@model Library.Models.Authors.ReadAuthorsViewModel
 
 
 @section Style
 {
-    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet"></link>
+    <link href="/css/library.css?v=1.1" rel="stylesheet"></link>
 }
 
 <div class="authors">
-
-
 
     @foreach (var author in Model.authors)
     {
@@ -25,7 +23,7 @@
                 </div>
             </div>
             <div class="crud-functionality">
-                <a href="/Authors/Update?id=@author.Id"> Update information </a>
+                <a href="/Authors/UpdateAuthor?id=@author.Id"> Update information </a>
                 <a href="/Authors/Delete?id=@author.Id"> Delete this author </a>
             </div>
         </div>

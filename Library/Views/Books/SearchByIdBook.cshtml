@@ -1,0 +1,46 @@
+﻿@model Library.Models.Common.SearchByIdViewModel
+
+
+@section Style {
+    <link href="/css/library.css?v=1.2" rel="stylesheet" />
+}
+
+
+@if (Model.Book is not null)
+{
+    <h2> Searched book </h2>
+
+
+    <div class="book">
+        <div>
+            Id: @Model.Book.Id
+        </div>
+        <div>
+            Name: @Model.Book.Name
+        </div>
+        <div>
+            Genre: @Model.Book.Genre
+        </div>
+        <div>
+            Description: @Model.Book.Description
+        </div>
+        <div>
+            Author: @(Model.Book.BookAuthor != null ? $"{Model.Book.BookAuthor.FirstName} {Model.Book.BookAuthor.LastName}" : "Unknown Author")
+        </div>
+        <div>
+            ISBN: @Model.Book.ISBN
+        </div>
+    </div>
+
+
+
+}
+else
+{
+    <h2> Search book by id </h2>
+
+    <form class="search-by-id" action="/Books/SearchByIdBook" method="post">
+        Search by id: @Html.TextBoxFor(x => x.Id)
+        <input type="submit" value="Search" />
+    </form>
+}

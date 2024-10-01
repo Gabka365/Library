@@ -1,0 +1,37 @@
+﻿@model Library.Models.Books.BookViewModel
+
+
+@section Style
+{
+    <link href="/css/library.css?v=1.3" rel="stylesheet"></link>
+}
+
+
+<h2> Create book </h2>
+
+<form action="/Books/CreateBook" method="post" enctype="multipart/form-data">
+    <div class="input-block">
+        <div>
+            Name: @Html.TextBoxFor(x => x.Name)
+        </div>
+        <div>
+            Genre: @Html.TextBoxFor(x => x.Genre)
+        </div>
+        <div>
+            Description: @Html.TextBoxFor(x => x.Description)
+        </div>
+        <div>
+            ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
+        </div>
+        <div>
+            Author's first name: @Html.TextBoxFor(x => x.BookAuthor.FirstName)
+        </div>
+        <div>
+            Author's last name: @Html.TextBoxFor(x => x.BookAuthor.LastName)
+        </div>
+        <div>
+            <input type="submit" value="Add" />
+        </div>
+    </div>
+
+</form>

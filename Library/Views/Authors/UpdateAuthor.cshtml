@@ -1,13 +1,16 @@
-﻿@model Library.Models.AuthorViewModel
+﻿@model Library.Models.Authors.AuthorViewModel
 
 
 @section Style
 {
-    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet"></link>
+    <link href="/css/library.css?v=1.1" rel="stylesheet"></link>
 }
 
 
-<form method="post">
+<h2> Update author </h2>
+
+
+<form method="post" action="/Authors/UpdateAuthor">
     @Html.HiddenFor(x => x.Id)
     <div class="input-block">
         @Html.HiddenFor(x => x.Id)

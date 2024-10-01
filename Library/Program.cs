@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<LibraryDbContext>();
 builder.Services.AddScoped<AuthorsRepository>();
+builder.Services.AddScoped<BooksRepository>();
 
 var app = builder.Build();
 
@@ -23,7 +24,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

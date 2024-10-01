@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace Library.Data
             using var service = serviceProvider.CreateScope();
 
             FillAuthors(service);
+            FillBooks(service);
         }
 
         private void FillAuthors(IServiceScope service)
@@ -50,6 +52,47 @@ namespace Library.Data
                     Motherland = "USA"
                 };
                 authorsRepository.Create(Hemingway);
+            }
+        }
+
+        private void FillBooks(IServiceScope service)
+        {
+            var booksRepository = service.ServiceProvider.GetService<BooksRepository>()!;
+            var authorRepository = service.ServiceProvider.GetService<AuthorsRepository>()!;
+            
+
+            if (!booksRepository.Any())
+            {
+                var theBurdenOfHumanPassions = new Book
+                {
+                    Name = "The burden of human passions",
+                    Genre = "Fiction novel",
+                    Description = "“A novel of education”, where the author traces the life of the main character Philip Carey from childhood to adolescence, from youth to maturity.",
+                    ISBN = "978-5-17-062680-9",
+                    BookAuthor = authorRepository.GetByLastName("Moem")
+                };
+                booksRepository.Create(theBurdenOfHumanPassions);
+
+                var threeComrades = new Book
+                {
+                    Name = "Three Comrades",
+                    Genre = "Fiction novel",
+                    Description = "A story about the friendship of three German soldiers after World War I and their shared experiences of love, loss, and hardship.",
+                    ISBN = "978-3-423-01368-1",
+                    BookAuthor = authorRepository.GetByLastName("Remarque")
+                };
+                booksRepository.Create(threeComrades);
+
+                var theOldManAndTheSea = new Book
+                {
+                    Name = "The Old Man and the Sea",
+                    Genre = "Fiction novel",
+                    Description = "A short novel about an old Cuban fisherman who battles with a giant marlin far out in the Gulf Stream, showcasing themes of struggle, resilience, and dignity.",
+                    ISBN = "978-0-684-80122-3",
+                    BookAuthor = authorRepository.GetByLastName("Hemingway")
+                };
+                booksRepository.Create(theOldManAndTheSea);
+
             }
         }
     }
