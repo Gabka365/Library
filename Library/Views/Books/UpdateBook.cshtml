@@ -9,7 +9,7 @@
 
 <h2> Update book </h2>
 
-<form method="post" action="/Books/UpdateBook">
+<form method="post" action="/Books/UpdateBook" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.Id)
     <div class="input-block">
         @Html.HiddenFor(x => x.Id)
@@ -30,6 +30,9 @@
         </div>
         <div>
             Author last name: @Html.TextBoxFor(x => x.BookAuthor.LastName)
+        </div>
+        <div>
+            Cover: <input type="file" name="@nameof(Model.Cover)" accept="image/png, image/jpeg" />
         </div>
         <div>
             <input type="submit" value="Update" />

@@ -4,6 +4,6 @@ namespace Library.Models.Books
 {
     public class ReadBooksViewModel
     {
-        public List<Book> Books { get; set; }
+        public List<BookViewModel> Books { get; set; }
     }
 }

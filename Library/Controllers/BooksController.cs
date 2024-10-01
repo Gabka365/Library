@@ -4,6 +4,7 @@ using Library.Models.Books;
 using Microsoft.AspNetCore.Mvc;
 using Library.Models.Common;
 using Library.Data.Models;
+using Library.Services;
 
 namespace Library.Controllers
 {
@@ -11,12 +12,14 @@ namespace Library.Controllers
     {
         private BooksRepository _booksRepository;
         private AuthorsRepository _authorsRepository;
+        private PathHelper _pathHelper;
 
 
-        public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository)
+        public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository, PathHelper pathHelper)
         {
             _booksRepository = booksRepository;
             _authorsRepository = authorsRepository;
+            _pathHelper = pathHelper;
         }
 
         [HttpGet]
@@ -43,18 +46,27 @@ namespace Library.Controllers
                 BookAuthor = _authorsRepository.GetByLastName(viewModel.BookAuthor.LastName)
             };
 
-            _booksRepository.Create(book);
+            var bookInDb = _booksRepository.Create(book);
+
+            var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
+            using (var fs = new FileStream(path, FileMode.Create))
+            {
+                viewModel.Cover.CopyTo(fs);
+            }
 
             return RedirectToAction("Books", "Home");
         }
 
         public IActionResult ReadBooks()
         {
-            var booksRepo = _booksRepository.GetAll();
+            var booksViewModels = _booksRepository
+                .GetAll()
+                .Select(BuildBookViewModel)
+                .ToList();
 
             var viewModel = new ReadBooksViewModel
             {
-                Books = booksRepo,
+                Books = booksViewModels,
             };
 
             return View(viewModel);
@@ -145,6 +157,13 @@ namespace Library.Controllers
 
            _booksRepository.Update(book);
 
+            
+            var path = _pathHelper.GetPathToBookCover(book.Id);
+            using (var fs = new FileStream(path, FileMode.Create))
+            {
+                viewModel.Cover.CopyTo(fs);
+            }
+
             return RedirectToAction("ReadBooks");
         }
 
@@ -154,5 +173,17 @@ namespace Library.Controllers
             _booksRepository.Delete(id);
             return RedirectToAction("ReadBooks");
         }
+
+        private BookViewModel BuildBookViewModel(Book book)
+            => new BookViewModel
+            {
+                Id = book.Id,
+                Name = book.Name,
+                Description = book.Description,
+                ISBN = book.ISBN,
+                Genre = book.Genre,
+                BookAuthor = book.BookAuthor,
+                HasCover = _pathHelper.IsBookCoverExist(book.Id)
+            };
     }
 }
