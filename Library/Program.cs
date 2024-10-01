@@ -1,5 +1,6 @@
 using Library.Data;
 using Library.Data.Repositories;
+using Library.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<LibraryDbContext>();
 builder.Services.AddScoped<AuthorsRepository>();
 builder.Services.AddScoped<BooksRepository>();
+builder.Services.AddSingleton<PathHelper>();
 
 var app = builder.Build();
 

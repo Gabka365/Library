@@ -17,11 +17,14 @@ namespace Library.Controllers
 
         public IActionResult ReadAuthors()
         {
-            var authorsRepo = _authorsRepository.GetAll();
+            var authorsViewModel = _authorsRepository
+                .GetAll()
+                .Select(BuildAuthorViewModel)
+                .ToList();
 
             var viewModel = new ReadAuthorsViewModel
             {
-                authors = authorsRepo
+                authors = authorsViewModel
             };
 
             return View(viewModel);
@@ -120,5 +123,15 @@ namespace Library.Controllers
 
             return View(viewModel);
         }
+
+        private AuthorViewModel BuildAuthorViewModel(Author author)
+            => new AuthorViewModel
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+                DateTime = author.Birthday,
+                Motherland = author.Motherland
+            };
     }
 }

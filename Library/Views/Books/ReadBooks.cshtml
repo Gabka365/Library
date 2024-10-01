@@ -26,6 +26,13 @@
                 <div class="isbn">
                     ISBN: @book.ISBN
                 </div>
+                @if((bool)book.HasCover)
+                {
+                    <div class="cover">
+                        Cover: <img class="cover" src="/images/book covers/cover-@(book.Id).jpg" />
+                    </div>
+                }
+
             </div>
             <div class="crud-functionality">
                 <a href="/Books/UpdateBook?id=@book.Id"> Update information </a>
