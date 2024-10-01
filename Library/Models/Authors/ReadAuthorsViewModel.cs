@@ -1,8 +1,8 @@
 ﻿using Library.Data.Models;
 
-namespace Library.Models
+namespace Library.Models.Authors
 {
-    public class ReadViewModel
+    public class ReadAuthorsViewModel
     {
         public List<Author> authors;
     }

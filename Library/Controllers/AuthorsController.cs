@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Library.Data.Repositories;
 using Library.Data.Models;
-using Library.Models;
+using Library.Models.Authors;
+using Library.Models.Common;
 
 namespace Library.Controllers
 {
@@ -14,11 +15,11 @@ namespace Library.Controllers
             _authorsRepository = authorsRepository; 
         }
 
-        public IActionResult Read()
+        public IActionResult ReadAuthors()
         {
             var authorsRepo = _authorsRepository.GetAll();
 
-            var viewModel = new ReadViewModel
+            var viewModel = new ReadAuthorsViewModel
             {
                 authors = authorsRepo
             };
@@ -27,13 +28,13 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateAuthor()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(AuthorViewModel viewModel)
+        public IActionResult CreateAuthor(AuthorViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -55,7 +56,7 @@ namespace Library.Controllers
 
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public IActionResult UpdateAuthor(int id)
         {
             var author = _authorsRepository.Get(id);
 
@@ -72,7 +73,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(AuthorViewModel viewModel)
+        public IActionResult UpdateAuthor(AuthorViewModel viewModel)
         {
 
             var author = new Author
@@ -86,25 +87,25 @@ namespace Library.Controllers
 
             _authorsRepository.Update(author);
 
-            return RedirectToAction("Read");
+            return RedirectToAction("ReadAuthors");
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
             _authorsRepository.Delete(id);
-            return RedirectToAction("Read");
+            return RedirectToAction("ReadAuthors");
         }
 
         [HttpGet]
-        public IActionResult SearchById()
+        public IActionResult SearchByIdAuthor()
         {
             var viewModel = new SearchByIdViewModel();
             return View(viewModel); 
         }
 
         [HttpPost]
-        public IActionResult SearchById(SearchByIdViewModel viewModel)
+        public IActionResult SearchByIdAuthor(SearchByIdViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

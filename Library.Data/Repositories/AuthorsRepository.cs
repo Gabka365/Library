@@ -8,58 +8,30 @@ using Library.Data.Models;
 
 namespace Library.Data.Repositories
 {
-    public class AuthorsRepository
+    public class AuthorsRepository : BaseRepository<Author>
     {
-        private LibraryDbContext _db;
-
-        public AuthorsRepository(LibraryDbContext db) 
-        { 
-            _db = db;
-        }
-
-        public List<Author> GetAll()
-        {
-            return _db.Authors.ToList();
-        }
-
-        public bool Any() 
-        { 
-            return _db.Authors.Any(); 
-        }
-
-        public Author Create(Author author)
-        {
-            _db.Authors.Add(author);
-
-            _db.SaveChanges();
-            
-            return author;
-        }
-
-        public Author? Get(int? id)
-        {
-            return _db.Authors.FirstOrDefault(x => x.Id == id);
-        }
-
-        public void Delete(int id)
-        {
-            var author = Get(id);
-
-            _db.Authors.Remove(author);
-
-            _db.SaveChanges();
-        }
-
+        public AuthorsRepository(LibraryDbContext db) : base(db) { }
+        
         public void Update(Author author)
         {
-            var db = Get(author.Id);
+            var dbModel = Get(author.Id);
 
-            db.FirstName = author.FirstName;
-            db.LastName = author.LastName;
-            db.Birthday = author.Birthday;
-            db.Motherland = author.Motherland;
+            dbModel.FirstName = author.FirstName;
+            dbModel.LastName = author.LastName;
+            dbModel.Birthday = author.Birthday;
+            dbModel.Motherland = author.Motherland;
 
-            _db.SaveChanges();
+            _dbContext.SaveChanges();
+        }
+
+        public Author? GetByLastName(string lastName)
+        {
+            return _dbSet.FirstOrDefault(x => x.LastName == lastName);
+        }
+
+        public Author? GetByFirstName(string firstName)
+        {
+            return _dbSet.FirstOrDefault(x => x.FirstName == firstName);
         }
     }
 }

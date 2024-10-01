@@ -1,0 +1,45 @@
+﻿@model Library.Models.Books.SearchByIsbnViewModel
+
+
+@section Style {
+    <link href="/css/library.css?v=1.2" rel="stylesheet" />
+}
+
+
+@if (Model.SearchedBook is not null)
+{
+    <h2> Searched book </h2>
+
+    <div class="book">
+        <div>
+            Id: @Model.SearchedBook.Id
+        </div>
+        <div>
+            Name: @Model.SearchedBook.Name
+        </div>
+        <div>
+            Genre: @Model.SearchedBook.Genre
+        </div>
+        <div>
+            Description: @Model.SearchedBook.Description
+        </div>
+        <div>
+            Author: @(Model.SearchedBook.BookAuthor != null ? $"{Model.SearchedBook.BookAuthor.FirstName} {Model.SearchedBook.BookAuthor.LastName}" : "Unknown Author")
+        </div>
+        <div>
+            ISBN: @Model.SearchedBook.ISBN
+        </div>
+    </div>
+
+
+
+}
+else
+{
+    <h2> Search book by ISBN </h2>
+
+    <form class="search-by-id" action="/Books/SearchByISBN" method="post">
+        Search by ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
+        <input type="submit" value="Search" />
+    </form>
+}

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Models
 {
-    public class Author
+    public class Author : BaseModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthday { get; set; }

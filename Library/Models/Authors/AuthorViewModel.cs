@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Library.Models
+namespace Library.Models.Authors
 {
     public class AuthorViewModel
     {
@@ -12,6 +12,6 @@ namespace Library.Models
 
         [BindProperty, DataType(DataType.Date)]
         public DateTime DateTime { get; set; }
-        
+
     }
 }

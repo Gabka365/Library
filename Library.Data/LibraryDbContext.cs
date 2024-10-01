@@ -27,11 +27,13 @@ namespace Library.Data
         {
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Books)
-                .WithMany(x => x.ActualUsers);
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired(false);
 
             modelBuilder.Entity<Author>()
                 .HasMany(x => x.Books)
-                .WithOne(x => x.Author)
+                .WithOne(x => x.BookAuthor)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 

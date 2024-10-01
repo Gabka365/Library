@@ -1,13 +1,15 @@
-﻿@model Library.Models.AuthorViewModel
+﻿@model Library.Models.Authors.AuthorViewModel
 
 
 @section Style
 {
-    <link href="/css/Authors/authors.css?v=1.1" rel="stylesheet"></link>
+    <link href="/css/library.css?v=1.1" rel="stylesheet"></link>
 }
 
 
-<form action="/Authors/Create" method="post" enctype="multipart/form-data">
+<h2> Create author </h2>
+
+<form action="/Authors/CreateAuthor" method="post" enctype="multipart/form-data">
     
     <div class="input-block">
         <div>

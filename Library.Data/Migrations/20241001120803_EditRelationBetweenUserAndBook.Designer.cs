@@ -4,6 +4,7 @@ using Library.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Data.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001120803_EditRelationBetweenUserAndBook")]
+    partial class EditRelationBetweenUserAndBook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,17 +61,17 @@ namespace Library.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BookAuthorId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeliveryDate")
+                    b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ExpectedReturnDate")
+                    b.Property<DateTime>("ExpectedReturnDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Genre")
@@ -83,12 +86,12 @@ namespace Library.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookAuthorId");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("UserId");
 
@@ -118,9 +121,9 @@ namespace Library.Data.Migrations
 
             modelBuilder.Entity("Library.Data.Models.Book", b =>
                 {
-                    b.HasOne("Library.Data.Models.Author", "BookAuthor")
+                    b.HasOne("Library.Data.Models.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("BookAuthorId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Library.Data.Models.User", "User")
@@ -128,7 +131,7 @@ namespace Library.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("BookAuthor");
+                    b.Navigation("Author");
 
                     b.Navigation("User");
                 });

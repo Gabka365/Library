@@ -1,6 +1,8 @@
 ﻿
 
-.authors .author{
+
+
+.authors .author {
     margin: 30px;
     padding: 10px;
     border: #111213 1px solid;
@@ -9,11 +11,20 @@
     align-items: center;
 }
 
-.authors-panel ul {
+.books .book {
+    margin: 30px;
+    padding: 10px;
+    border: #111213 1px solid;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.panel ul {
     list-style-type: none;
 }
 
-.authors-panel li {
+.panel li {
     display: flex;
     flex-flow: column;
 }
@@ -23,7 +34,12 @@
     flex-flow: column;
 }
 
-.input-block div{
+.books .book .crud-functionality {
+    display: flex;
+    flex-flow: column;
+}
+
+.input-block div {
     display: flex;
     flex-flow: column;
     padding-bottom: 20px;
