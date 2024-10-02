@@ -13,23 +13,29 @@
 
     <div class="book">
         <div>
-            Id: @Model.Book.Id
+            <div class="content">Id:</div> @Model.Book.Id
         </div>
         <div>
-            Name: @Model.Book.Name
+            <div class="content">Name:</div> @Model.Book.Name
         </div>
         <div>
-            Genre: @Model.Book.Genre
+            <div class="content">Genre:</div> @Model.Book.Genre
         </div>
         <div>
-            Description: @Model.Book.Description
+            <div class="content">Description:</div> @Model.Book.Description
         </div>
         <div>
-            Author: @(Model.Book.BookAuthor != null ? $"{Model.Book.BookAuthor.FirstName} {Model.Book.BookAuthor.LastName}" : "Unknown Author")
+            <div class="content">Author's name:</div> @(Model.Book.BookAuthor != null ? $"{Model.Book.BookAuthor.FirstName} {Model.Book.BookAuthor.LastName}" : "Unknown Author")
         </div>
         <div>
-            ISBN: @Model.Book.ISBN
+            <div class="content">ISBN:</div> @Model.Book.ISBN
         </div>
+        @if ((bool)Model.HasCover)
+        {
+            <div class="cover-block">
+                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.Id).jpg" />
+            </div>
+        }
     </div>
 
 

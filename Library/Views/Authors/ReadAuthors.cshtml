@@ -3,7 +3,7 @@
 
 @section Style
 {
-    <link href="/css/library.css?v=1.1" rel="stylesheet"></link>
+    <link href="/css/library.css?v=1.4" rel="stylesheet"></link>
 }
 
 <div class="authors">
@@ -12,14 +12,17 @@
     {
         <div class="author">
             <div class="personal-data">
+                <div class="Id">
+                    <div class="content-author">Author's ID:</div> @author.Id
+                </div>
                 <div class="name">
-                    @author.FirstName @author.LastName
+                    <div class="content-author">Name:</div> @author.FirstName @author.LastName
                 </div>
                 <div class="birthday">
-                    @author.DateTime.ToString("dd.MM.yyyy")
+                    <div class="content-author">Birthday:</div> @author.DateTime.ToString("dd.MM.yyyy")
                 </div>
                 <div class="motherland">
-                    @author.Motherland
+                    <div class="content-author">Motherland</div> @author.Motherland
                 </div>
             </div>
             <div class="crud-functionality">

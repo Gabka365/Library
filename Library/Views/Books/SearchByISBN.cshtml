@@ -12,27 +12,30 @@
 
     <div class="book">
         <div>
-            Id: @Model.SearchedBook.Id
+            <div class="content">Id:</div> @Model.SearchedBook.Id
         </div>
         <div>
-            Name: @Model.SearchedBook.Name
+            <div class="content">Name:</div> @Model.SearchedBook.Name
         </div>
         <div>
-            Genre: @Model.SearchedBook.Genre
+            <div class="content">Genre:</div> @Model.SearchedBook.Genre
         </div>
         <div>
-            Description: @Model.SearchedBook.Description
+            <div class="content">Description:</div> @Model.SearchedBook.Description
         </div>
         <div>
-            Author: @(Model.SearchedBook.BookAuthor != null ? $"{Model.SearchedBook.BookAuthor.FirstName} {Model.SearchedBook.BookAuthor.LastName}" : "Unknown Author")
+            <div class="content">Author's name:</div> @(Model.SearchedBook.BookAuthor != null ? $"{Model.SearchedBook.BookAuthor.FirstName} {Model.SearchedBook.BookAuthor.LastName}" : "Unknown Author")
         </div>
         <div>
-            ISBN: @Model.SearchedBook.ISBN
+            <div class="content">ISBN:</div> @Model.SearchedBook.ISBN
         </div>
+        @if ((bool)Model.HasCover)
+        {
+            <div class="cover-block">
+                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.SearchedBook.Id).jpg" />
+            </div>
+        }
     </div>
-
-
-
 }
 else
 {
@@ -41,5 +44,6 @@ else
     <form class="search-by-id" action="/Books/SearchByISBN" method="post">
         Search by ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
         <input type="submit" value="Search" />
+        @Html.ValidationMessageFor(x => x.ISBN)
     </form>
 }

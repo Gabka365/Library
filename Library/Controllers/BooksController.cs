@@ -31,6 +31,11 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult CreateBook(BookViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             if (_authorsRepository.GetByLastName(viewModel.BookAuthor.LastName) is null ||
                 _authorsRepository.GetByFirstName(viewModel.BookAuthor.FirstName) is null)
             {
@@ -95,6 +100,7 @@ namespace Library.Controllers
             var book = _booksRepository.Get(Id);
 
             viewModel.Book = book;
+            viewModel.HasCover = _pathHelper.IsBookCoverExist(Id);
 
             return View(viewModel);
         }
@@ -117,6 +123,7 @@ namespace Library.Controllers
             var book = _booksRepository.GetByISBN(viewModel.ISBN);
 
             viewModel.SearchedBook = book;
+            viewModel.HasCover = _pathHelper.IsBookCoverExist(book.Id);
 
             return View(viewModel);
         }
@@ -142,7 +149,12 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult UpdateBook(BookViewModel viewModel)
         {
-            if(_authorsRepository.GetByLastName(viewModel.BookAuthor.LastName) is null ||
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            if (_authorsRepository.GetByLastName(viewModel.BookAuthor.LastName) is null ||
                 _authorsRepository.GetByFirstName(viewModel.BookAuthor.FirstName) is null)
             {
                 return RedirectToAction("CreateAuthor", "Authors");
