@@ -1,7 +1,4 @@
 ﻿
-
-
-
 .authors .author {
     margin: 30px;
     padding: 10px;
@@ -12,13 +9,19 @@
 }
 
 .books .book {
-    margin: 30px;
-    padding: 10px;
     border: #111213 1px solid;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
 }
+
+    .books .book .personal-data {
+        width: 900px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
 
 .panel ul {
     list-style-type: none;
@@ -43,4 +46,16 @@
     display: flex;
     flex-flow: column;
     padding-bottom: 20px;
+}
+
+
+.content {
+    font-weight: 900;
+}
+
+
+.books .book .crud-functionality .link {
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
 }

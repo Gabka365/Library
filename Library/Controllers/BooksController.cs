@@ -48,10 +48,13 @@ namespace Library.Controllers
 
             var bookInDb = _booksRepository.Create(book);
 
-            var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
-            using (var fs = new FileStream(path, FileMode.Create))
+            if (viewModel.Cover != null)
             {
-                viewModel.Cover.CopyTo(fs);
+                var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    viewModel.Cover.CopyTo(fs);
+                }
             }
 
             return RedirectToAction("Books", "Home");
@@ -158,11 +161,15 @@ namespace Library.Controllers
            _booksRepository.Update(book);
 
             
-            var path = _pathHelper.GetPathToBookCover(book.Id);
-            using (var fs = new FileStream(path, FileMode.Create))
+            if(viewModel.Cover != null)
             {
-                viewModel.Cover.CopyTo(fs);
+                var path = _pathHelper.GetPathToBookCover(book.Id);
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    viewModel.Cover.CopyTo(fs);
+                }
             }
+
 
             return RedirectToAction("ReadBooks");
         }
