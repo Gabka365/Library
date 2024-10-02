@@ -1,3 +1,4 @@
+using Library.CustomMiddlewareServices;
 using Library.Data;
 using Library.Data.Repositories;
 using Library.Services;
@@ -15,6 +16,8 @@ var app = builder.Build();
 
 var seed = new Seed();
 seed.Fill(app.Services);
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 if (!app.Environment.IsDevelopment())
 {
