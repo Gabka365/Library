@@ -15,15 +15,19 @@
         @Html.HiddenFor(x => x.Id)
         <div>
             Name: @Html.TextBoxFor(x => x.Name)
+            @Html.ValidationMessageFor(x => x.Name)
         </div>
         <div>
             Genre: @Html.TextBoxFor(x => x.Genre)
+            @Html.ValidationMessageFor(x => x.Genre)
         </div>
         <div>
             Description: @Html.TextBoxFor(x => x.Description)
+            @Html.ValidationMessageFor(x => x.Description)
         </div>
         <div>
             ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
+            @Html.ValidationMessageFor(x => x.ISBN)
         </div>
         <div>
             Author first name: @Html.TextBoxFor(x => x.BookAuthor.FirstName)
@@ -33,6 +37,7 @@
         </div>
         <div>
             Cover: <input type="file" name="@nameof(Model.Cover)" accept="image/png, image/jpeg" />
+            @Html.ValidationMessageFor(x => x.Cover)
         </div>
         <div>
             <input type="submit" value="Update" />

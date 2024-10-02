@@ -3,7 +3,7 @@
 
 @section Style
 {
-    <link href="/css/library.css?v=1.3" rel="stylesheet"></link>
+    <link href="/css/library.css?v=1.5" rel="stylesheet"></link>
 }
 
 <div class="books">
@@ -11,32 +11,35 @@
     {
         <div class="book">
             <div class="personal-data">
+                <div class="id">
+                    <div class="content">Id:</div> @book.Id
+                </div>
                 <div class="name">
-                    Name: @book.Name
+                    <div class="content">Name:</div> @book.Name
                 </div>
                 <div class="genre">
-                    Genre: @book.Genre
+                    <div class="content">Genre:</div> @book.Genre
                 </div>
                 <div class="book-author">
-                    Author: @(book.BookAuthor != null ? $"{book.BookAuthor.FirstName} {book.BookAuthor.LastName}" : "Unknown Author")
+                    <div class="content">Author:</div> @(book.BookAuthor != null ? $"{book.BookAuthor.FirstName} {book.BookAuthor.LastName}" : "Unknown Author")
                 </div> 
                 <div class="description">
-                    Description: @book.Description
+                    <div class="content">Description:</div> @book.Description
                 </div>
                 <div class="isbn">
-                    ISBN: @book.ISBN
+                    <div class="content">ISBN:</div> @book.ISBN
                 </div>
                 @if((bool)book.HasCover)
                 {
-                    <div class="cover">
-                        Cover: <img class="cover" src="/images/book covers/cover-@(book.Id).jpg" />
+                    <div class="cover-block">
+                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" />
                     </div>
                 }
 
             </div>
             <div class="crud-functionality">
-                <a href="/Books/UpdateBook?id=@book.Id"> Update information </a>
-                <a href="/Books/Delete?id=@book.Id"> Delete this book </a>
+                <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
+                <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
             </div>
         </div>
     }
