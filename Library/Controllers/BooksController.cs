@@ -28,8 +28,6 @@ namespace Library.Controllers
         [Authorize]
         public IActionResult CreateBook()
         {
-            string claimType = "userName";
-            var name = HttpContext!.User.Claims.First(x => x.Type == claimType).Value;
 
             return View();
         }
@@ -73,9 +71,7 @@ namespace Library.Controllers
 
         public IActionResult ReadBooks()
         {
-            var userIdClaim = HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             
-
             var booksViewModels = _booksRepository
                 .GetAll()
                 .Select(BuildBookViewModel)

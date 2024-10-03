@@ -15,5 +15,20 @@ namespace Library.Data.Repositories
         { 
             return _dbSet.FirstOrDefault(x => x.Name == username); 
         }
+
+        public void Update(User user)
+        { 
+            var dbModel = Get(user.Id);
+
+            dbModel.Id = user.Id;
+            dbModel.Name = user.Name;
+            dbModel.HashedPassword = user.HashedPassword;
+            dbModel.RefreshToken = user.RefreshToken;
+            dbModel.TokenCreated = user.TokenCreated;
+            dbModel.TokenExpires = user.TokenExpires;
+
+            _dbContext.SaveChanges();   
+        }
+
     }
 }

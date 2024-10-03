@@ -12,6 +12,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<LibraryDbContext>();
 builder.Services.AddScoped<AuthorsRepository>();
 builder.Services.AddScoped<BooksRepository>();
@@ -19,6 +20,8 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddSingleton<PathHelper>();
 builder.Services.AddScoped<PasswordHasher>();
 builder.Services.AddScoped<JwtProvider>();
+builder.Services.AddScoped<RefreshTokenProvider>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 

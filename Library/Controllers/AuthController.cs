@@ -3,6 +3,7 @@ using Library.Data.Repositories;
 using Library.Models.Auth;
 using Library.Services.AuthStuff;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Library.Controllers
 {
@@ -11,12 +12,15 @@ namespace Library.Controllers
         private PasswordHasher _passwordHasher;
         private UserRepository _userRepository;
         private JwtProvider _jwtProvider;
+        private RefreshTokenProvider _refreshTokenProvider;
 
-        public AuthController(PasswordHasher passwordHasher, UserRepository userRepository, JwtProvider jwtProvider) 
+        public AuthController(PasswordHasher passwordHasher, UserRepository userRepository, 
+            JwtProvider jwtProvider, RefreshTokenProvider refreshTokenProvider) 
         {
             _passwordHasher = passwordHasher;
             _userRepository = userRepository;
             _jwtProvider = jwtProvider;
+            _refreshTokenProvider = refreshTokenProvider;
         }
 
         [HttpGet]
@@ -33,10 +37,12 @@ namespace Library.Controllers
             var user = new User
             {
                 Name = viewModel.UserName,
-                Password = hashedPassword
+                HashedPassword = hashedPassword
             };
 
             _userRepository.Create(user);
+
+            
 
             return View(); 
         }
@@ -56,7 +62,7 @@ namespace Library.Controllers
                 return View(viewModel);
             }
 
-            var result = _passwordHasher.Verify(viewModel.Password, user.Password);
+            var result = _passwordHasher.Verify(viewModel.Password, user.HashedPassword);
             if (result is false)
             {
                 throw new Exception("Failed to login");
@@ -66,7 +72,11 @@ namespace Library.Controllers
 
             HttpContext.Response.Cookies.Append("nice-value", token);
 
-            return View();
+            var refreshToken = _refreshTokenProvider.GenerateRefreshToken();
+
+            _refreshTokenProvider.SetRefreshToken(refreshToken, user);
+
+            return RedirectToAction("Index","Home");
         }
     }
 }
