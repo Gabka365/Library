@@ -17,7 +17,7 @@ namespace Library.Services
             return GetPathByFolder("images\\book covers", fileName);
         }
 
-        public bool IsBookCoverExist(int bookId)
+        public bool? IsBookCoverExist(int bookId)
         {
             var path = GetPathToBookCover(bookId);
             return File.Exists(path);

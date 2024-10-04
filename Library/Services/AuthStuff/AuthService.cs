@@ -1,4 +1,5 @@
-﻿using Library.Data.Models;
+﻿using Library.Data.Enums;
+using Library.Data.Models;
 using Library.Data.Repositories;
 
 namespace Library.Services.AuthStuff
@@ -28,6 +29,22 @@ namespace Library.Services.AuthStuff
             return userId;
         }
 
+        public UserRole GetUserRole()
+        {
+            var userRole = GetClaimValue("userRole");
+            return Enum.Parse<UserRole>(userRole);
+        }
+
+        public bool IsAdmin()
+        {
+            return IsAuthenticated() && GetUserRole() == UserRole.Admin;
+        }
+
+        public bool IsAuthenticated()
+        {
+            return _httpContextAccessor.HttpContext!.User.Identity?.IsAuthenticated ?? false;
+        }
+
         private string GetClaimValue(string claimType) 
          => _httpContextAccessor
             .HttpContext!
@@ -35,6 +52,5 @@ namespace Library.Services.AuthStuff
             .Claims
             .First(x => x.Type == claimType)
             .Value;
-        
     }
 }
