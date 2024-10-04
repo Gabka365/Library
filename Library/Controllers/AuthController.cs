@@ -30,8 +30,13 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(UserPersonalViewModel viewModel)
+        public IActionResult Register(RegisterViewModel viewModel)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             var hashedPassword = _passwordHasher.Generate(viewModel.Password);
 
             var user = new User
@@ -42,9 +47,12 @@ namespace Library.Controllers
 
             _userRepository.Create(user);
 
-            
+            var token = _jwtProvider.GenerateToken(user);
+            HttpContext.Response.Cookies.Append("nice-value", token);
+            var refreshToken = _refreshTokenProvider.GenerateRefreshToken();
+            _refreshTokenProvider.SetRefreshToken(refreshToken, user);
 
-            return View(); 
+            return RedirectToAction("TokenCheck", "Home");
         }
 
         [HttpGet]
@@ -54,7 +62,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserPersonalViewModel viewModel)
+        public IActionResult Login(AuthViewModel viewModel)
         {
             var user = _userRepository.GetByUsername(viewModel.UserName);
             if (user is null)
@@ -76,7 +84,7 @@ namespace Library.Controllers
 
             _refreshTokenProvider.SetRefreshToken(refreshToken, user);
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("TokenCheck","Home");
         }
     }
 }

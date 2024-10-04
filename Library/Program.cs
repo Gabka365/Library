@@ -1,6 +1,7 @@
 using Library.CustomMiddlewareServices;
 using Library.Data;
 using Library.Data.Repositories;
+using Library.Models.ValidationAttributes;
 using Library.Services;
 using Library.Services.AuthStuff;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -68,5 +69,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 app.Run();

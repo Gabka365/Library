@@ -71,7 +71,6 @@ namespace Library.Controllers
 
         public IActionResult ReadBooks()
         {
-            
             var booksViewModels = _booksRepository
                 .GetAll()
                 .Select(BuildBookViewModel)
@@ -81,7 +80,6 @@ namespace Library.Controllers
             {
                 Books = booksViewModels,
             };
-
             return View(viewModel);
         }
 

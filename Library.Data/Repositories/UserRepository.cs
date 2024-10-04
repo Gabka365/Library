@@ -16,6 +16,11 @@ namespace Library.Data.Repositories
             return _dbSet.FirstOrDefault(x => x.Name == username); 
         }
 
+        public bool Exist(string login)
+        {
+            return _dbSet.Any(x => x.Name == login);
+        }
+
         public void Update(User user)
         { 
             var dbModel = Get(user.Id);

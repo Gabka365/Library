@@ -1,4 +1,12 @@
-﻿@model Library.Models.Auth.UserPersonalViewModel
+﻿@model Library.Models.Auth.RegisterViewModel
+
+
+@section Style
+{
+    <link href="/css/library.css?v=1.5" rel="stylesheet"></link>
+}
+
+<h2> Sign Up </h2>
 
 <form method="post">
     <div>
@@ -11,3 +19,5 @@
         <input type="submit" value="Sign Up" />
     </div>
 </form>
+
+@Html.ValidationMessageFor(x => x.UserName)
