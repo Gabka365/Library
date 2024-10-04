@@ -37,10 +37,13 @@
                 }
 
             </div>
-            <div class="crud-functionality">
-                <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
-                <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
-            </div>
+            @if(Model.IsAdmin)
+            {
+                <div class="crud-functionality">
+                    <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
+                    <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
+                </div>
+            }
         </div>
     }
 </div>

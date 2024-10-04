@@ -7,6 +7,8 @@ using Library.Data.Models;
 using Library.Services;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Library.Controllers.ActionFilterAttributes;
+using Library.Services.AuthStuff;
 
 namespace Library.Controllers
 {
@@ -15,20 +17,21 @@ namespace Library.Controllers
         private BooksRepository _booksRepository;
         private AuthorsRepository _authorsRepository;
         private PathHelper _pathHelper;
+        private AuthService _authService;
 
-
-        public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository, PathHelper pathHelper)
+        public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository, 
+            PathHelper pathHelper, AuthService authService)
         {
             _booksRepository = booksRepository;
             _authorsRepository = authorsRepository;
             _pathHelper = pathHelper;
+            _authService = authService;
         }
 
         [HttpGet]
-        [Authorize]
+        [IsAdmin]
         public IActionResult CreateBook()
         {
-
             return View();
         }
 
@@ -79,6 +82,7 @@ namespace Library.Controllers
             var viewModel = new ReadBooksViewModel
             {
                 Books = booksViewModels,
+                IsAdmin = _authService.IsAdmin()
             };
             return View(viewModel);
         }
@@ -102,6 +106,11 @@ namespace Library.Controllers
 
             var book = _booksRepository.Get(Id);
 
+            if (book == null)
+            {
+                return View(viewModel);
+            }
+
             viewModel.Book = book;
             viewModel.HasCover = _pathHelper.IsBookCoverExist(Id);
 
@@ -124,6 +133,11 @@ namespace Library.Controllers
             }
 
             var book = _booksRepository.GetByISBN(viewModel.ISBN);
+
+            if (book == null)
+            {
+                return View(viewModel);
+            }
 
             viewModel.SearchedBook = book;
             viewModel.HasCover = _pathHelper.IsBookCoverExist(book.Id);

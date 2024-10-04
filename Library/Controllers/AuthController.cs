@@ -4,6 +4,7 @@ using Library.Models.Auth;
 using Library.Services.AuthStuff;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Library.Data.Enums;
 
 namespace Library.Controllers
 {
@@ -42,7 +43,8 @@ namespace Library.Controllers
             var user = new User
             {
                 Name = viewModel.UserName,
-                HashedPassword = hashedPassword
+                HashedPassword = hashedPassword,
+                UserRole = UserRole.User
             };
 
             _userRepository.Create(user);
@@ -77,14 +79,20 @@ namespace Library.Controllers
             }
 
             var token = _jwtProvider.GenerateToken(user);
-
             HttpContext.Response.Cookies.Append("nice-value", token);
-
             var refreshToken = _refreshTokenProvider.GenerateRefreshToken();
-
             _refreshTokenProvider.SetRefreshToken(refreshToken, user);
 
+
             return RedirectToAction("TokenCheck","Home");
+        }
+
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Response.Cookies.Delete("nice-value");
+            return RedirectToAction("Login");
         }
     }
 }

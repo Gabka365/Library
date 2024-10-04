@@ -18,7 +18,7 @@ namespace Library.Services.AuthStuff
 
         public string GenerateToken(User user)
         {
-            Claim[] claims = [new("userId", user.Id.ToString()), new("userName", user.Name)];
+            Claim[] claims = [new("userId", user.Id.ToString()), new("userName", user.Name), new("userRole", user.UserRole.ToString())];
 
             var credentials = new SigningCredentials
                 (new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)), SecurityAlgorithms.HmacSha256);
