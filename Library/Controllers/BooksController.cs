@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Library.Models.Common;
 using Library.Data.Models;
 using Library.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Library.Controllers
 {
@@ -23,8 +25,10 @@ namespace Library.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult CreateBook()
         {
+
             return View();
         }
 
@@ -76,7 +80,6 @@ namespace Library.Controllers
             {
                 Books = booksViewModels,
             };
-
             return View(viewModel);
         }
 

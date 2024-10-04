@@ -3,6 +3,7 @@ using Library.Data.Repositories;
 using Library.Data.Models;
 using Library.Models.Authors;
 using Library.Models.Common;
+using System.Security.Claims;
 
 namespace Library.Controllers
 {

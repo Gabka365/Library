@@ -1,0 +1,15 @@
+﻿@model Library.Models.Auth.AuthViewModel
+
+<h2> Login </h2>
+
+<form method="post">
+    <div>
+        @Html.TextBoxFor(x => x.UserName, new { placeholder = "Username" })
+    </div>
+    <div>
+        @Html.TextBoxFor(x => x.Password, new { @type = "password", placeholder = "Password" })
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+</form>
