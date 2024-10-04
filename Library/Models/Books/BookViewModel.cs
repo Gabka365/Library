@@ -14,6 +14,7 @@ namespace Library.Models.Books
         public string Genre { get; set; }
         public string Description { get; set; }
         public bool? HasCover { get; set; }
+        public uint Count { get; set; }
 
         [ValidateNever]
         public Author? BookAuthor { get; set; }

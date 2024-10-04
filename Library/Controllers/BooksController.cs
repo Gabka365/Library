@@ -49,23 +49,34 @@ namespace Library.Controllers
                 return RedirectToAction("CreateAuthor", "Authors");
             }
 
-            var book = new Book
-            {
-                Name = viewModel.Name,
-                Description = viewModel.Description,
-                ISBN = viewModel.ISBN,
-                Genre = viewModel.Genre,
-                BookAuthor = _authorsRepository.GetByLastName(viewModel.BookAuthor.LastName)
-            };
+            var author = _authorsRepository.GetByName(viewModel.BookAuthor.FirstName, viewModel.BookAuthor.LastName);
 
-            var bookInDb = _booksRepository.Create(book);
-
-            if (viewModel.Cover != null)
+            if (_booksRepository.IsExist(viewModel.Name, author))
             {
-                var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
-                using (var fs = new FileStream(path, FileMode.Create))
+                var addingBook = _booksRepository.GetByAuthorAndName(viewModel.Name, author);
+                _booksRepository.UpdateCount(addingBook, viewModel.Count);
+            }
+            else
+            {
+                var book = new Book
                 {
-                    viewModel.Cover.CopyTo(fs);
+                    Name = viewModel.Name,
+                    Description = viewModel.Description,
+                    ISBN = viewModel.ISBN,
+                    Genre = viewModel.Genre,
+                    BookAuthor = _authorsRepository.GetByLastName(viewModel.BookAuthor.LastName),
+                    Count = viewModel.Count,
+                };
+
+                var bookInDb = _booksRepository.Create(book);
+
+                if (viewModel.Cover != null)
+                {
+                    var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
+                    using (var fs = new FileStream(path, FileMode.Create))
+                    {
+                        viewModel.Cover.CopyTo(fs);
+                    }
                 }
             }
 
@@ -157,7 +168,8 @@ namespace Library.Controllers
                 Description = book.Description,
                 ISBN = book.ISBN,
                 Genre = book.Genre,
-                BookAuthor = book.BookAuthor
+                BookAuthor = book.BookAuthor,
+                Count = book.Count, 
             };
 
             return View(viewModel);
@@ -184,7 +196,8 @@ namespace Library.Controllers
                 Description = viewModel.Description,
                 ISBN = viewModel.ISBN,
                 Genre = viewModel.Genre,
-                BookAuthor = viewModel.BookAuthor
+                BookAuthor = viewModel.BookAuthor,
+                Count = viewModel.Count,
             };
 
            _booksRepository.Update(book);
@@ -219,7 +232,8 @@ namespace Library.Controllers
                 ISBN = book.ISBN,
                 Genre = book.Genre,
                 BookAuthor = book.BookAuthor,
-                HasCover = _pathHelper.IsBookCoverExist(book.Id)
+                HasCover = _pathHelper.IsBookCoverExist(book.Id),
+                Count = book.Count,
             };
     }
 }

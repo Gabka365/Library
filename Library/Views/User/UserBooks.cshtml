@@ -1,4 +1,4 @@
-﻿@model Library.Models.Books.ReadBooksViewModel
+﻿@model Library.Models.User.UserBooksViewModel
 
 
 @section Style
@@ -22,17 +22,14 @@
                 </div>
                 <div class="book-author">
                     <div class="content">Author:</div> @(book.BookAuthor != null ? $"{book.BookAuthor.FirstName} {book.BookAuthor.LastName}" : "Unknown Author")
-                </div> 
+                </div>
                 <div class="description">
                     <div class="content">Description:</div> @book.Description
                 </div>
                 <div class="isbn">
                     <div class="content">ISBN:</div> @book.ISBN
                 </div>
-                <div class="count">
-                    <div class="content">Count:</div> @book.Count
-                </div>
-                @if((bool)book.HasCover)
+                @if ((bool)book.HasCover)
                 {
                     <div class="cover-block">
                         <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" />
@@ -41,12 +38,6 @@
 
             </div>
             <div class="crud-functionality">
-                @if (Model.IsAdmin)
-                {
-                    <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
-                    <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
-                }
-                <a class="link" href="/User/Add?bookId=@book.Id"> Add to shelf </a>
             </div>
         </div>
     }

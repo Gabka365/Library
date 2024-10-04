@@ -1,4 +1,5 @@
 ﻿using Library.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace Library.Data.Repositories
             return _dbSet.FirstOrDefault(x => x.Name == username); 
         }
 
+        public override User? Get(int? id)
+        {
+            return _dbSet
+                .Include(x => x.Books)
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public bool Exist(string login)
         {
             return _dbSet.Any(x => x.Name == login);
@@ -31,6 +39,7 @@ namespace Library.Data.Repositories
             dbModel.RefreshToken = user.RefreshToken;
             dbModel.TokenCreated = user.TokenCreated;
             dbModel.TokenExpires = user.TokenExpires;
+            dbModel.Books = user.Books;
 
             _dbContext.SaveChanges();   
         }

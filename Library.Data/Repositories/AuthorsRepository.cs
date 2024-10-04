@@ -33,5 +33,11 @@ namespace Library.Data.Repositories
         {
             return _dbSet.FirstOrDefault(x => x.FirstName == firstName);
         }
+
+
+        public Author? GetByName(string firstName, string lastName)
+        {
+            return _dbSet.FirstOrDefault(x => x.LastName == lastName && x.FirstName == firstName);
+        }
     }
 }

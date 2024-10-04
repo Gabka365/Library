@@ -15,6 +15,6 @@ namespace Library.Data.Models
         public UserRole UserRole { get; set; }
         public DateTime? TokenCreated { get; set; }
         public DateTime? TokenExpires { get; set; }
-        public virtual List<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; } = new List<Book>();
     }
 }

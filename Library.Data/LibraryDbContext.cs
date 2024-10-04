@@ -34,7 +34,7 @@ namespace Library.Data
             modelBuilder.Entity<Author>()
                 .HasMany(x => x.Books)
                 .WithOne(x => x.BookAuthor)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(false);
 
             base.OnModelCreating(modelBuilder); 
