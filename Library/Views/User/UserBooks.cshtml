@@ -7,7 +7,7 @@
 }
 
 <div class="books">
-    @foreach (var book in Model.Books)
+    @foreach (var book in Model.BookInstances)
     {
         <div class="book">
             <div class="personal-data">
@@ -29,15 +29,23 @@
                 <div class="isbn">
                     <div class="content">ISBN:</div> @book.ISBN
                 </div>
+                <div class="date-start">
+                    <div class="content">Delivery date:</div> @book.DeliveryDate
+                </div>
+                <div class="date-start">
+                    <div class="content">Expected return date:</div> @book.ExpectedReturnDate
+                </div>
                 @if ((bool)book.HasCover)
                 {
                     <div class="cover-block">
-                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" />
+                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" asp-append-version="true" />
                     </div>
                 }
 
             </div>
             <div class="crud-functionality">
+                <a class="link" href="/User/Return?instanceId=@book.InstanceId"> Return book </a>
+                <a class="link" href="/Books/OpenBookPage?id=@book.Id"> Page </a>
             </div>
         </div>
     }

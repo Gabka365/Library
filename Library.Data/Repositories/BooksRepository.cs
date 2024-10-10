@@ -16,6 +16,7 @@ namespace Library.Data.Repositories
         {
             return _dbSet
                 .Include(x => x.BookAuthor)
+                .Include(x => x.Instances)
                 .ToList();
         }
 
@@ -23,6 +24,7 @@ namespace Library.Data.Repositories
         {
             return _dbSet
                 .Include(x => x.BookAuthor)
+                .Include(x => x.Instances)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -53,12 +55,6 @@ namespace Library.Data.Repositories
                  .FirstOrDefault(x => x.Name == bookName && x.BookAuthor == author);
         }
 
-        public void UpdateCount(Book? book, uint count)
-        {
-            book.Count += count;
-            _dbContext.SaveChanges();
-        }
-
         public void Update(Book book)
         {
             var dbModel = Get(book.Id);
@@ -68,9 +64,9 @@ namespace Library.Data.Repositories
             dbModel.Name = book.Name;
             dbModel.Description = book.Description;
             dbModel.Genre = book.Genre; 
-            dbModel.Count = book.Count;
             dbModel.BookAuthor.FirstName = book.BookAuthor.FirstName;
             dbModel.BookAuthor.LastName = book.BookAuthor.LastName;
+            dbModel.Instances = book.Instances;
 
             _dbContext.SaveChanges();
         }

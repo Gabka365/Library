@@ -24,6 +24,15 @@ namespace Library.Data.Repositories
                 .FirstOrDefault(x => x.Id == id);
         }
 
+        public List<BookInstance> GetBookInstances(int userId)
+        {
+            return _dbSet
+                .Include(x => x.BookInstances)
+                .ThenInclude(x => x.Book)
+                .FirstOrDefault(x => x.Id == userId)?
+                .BookInstances;
+        }
+
         public bool Exist(string login)
         {
             return _dbSet.Any(x => x.Name == login);

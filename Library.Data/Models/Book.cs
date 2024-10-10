@@ -13,10 +13,10 @@ namespace Library.Data.Models
         public string Name { get; set; }
         public string Genre { get; set; }
         public string Description { get; set; }
-        public uint Count { get; set; } = 0;
         public DateTime? DeliveryDate { get; set; }
         public DateTime? ExpectedReturnDate  { get; set; }
         public virtual Author BookAuthor { get; set; }
+        public virtual List<BookInstance> Instances { get; set; }
         public virtual User? User { get; set; }
     }
 }

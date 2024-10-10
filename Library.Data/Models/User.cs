@@ -16,5 +16,6 @@ namespace Library.Data.Models
         public DateTime? TokenCreated { get; set; }
         public DateTime? TokenExpires { get; set; }
         public virtual List<Book> Books { get; set; } = new List<Book>();
+        public virtual List<BookInstance>? BookInstances { get; set; } = new List<BookInstance>();
     }
 }

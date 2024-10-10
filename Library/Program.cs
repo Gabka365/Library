@@ -18,6 +18,7 @@ builder.Services.AddDbContext<LibraryDbContext>();
 builder.Services.AddScoped<AuthorsRepository>();
 builder.Services.AddScoped<BooksRepository>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<BookInstancesRepository>();
 builder.Services.AddSingleton<PathHelper>();
 builder.Services.AddScoped<PasswordHasher>();
 builder.Services.AddScoped<JwtProvider>();

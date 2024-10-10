@@ -10,8 +10,8 @@ namespace Library.Data.Repositories
 {
     public abstract class BaseRepository<DbModel> where DbModel : BaseModel
     {
-        protected LibraryDbContext _dbContext;
-        protected DbSet<DbModel> _dbSet;
+        protected readonly LibraryDbContext _dbContext;
+        protected readonly DbSet<DbModel> _dbSet;
 
         public BaseRepository(LibraryDbContext dbContext)
         {

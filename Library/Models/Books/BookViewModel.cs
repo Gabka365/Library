@@ -7,6 +7,7 @@ namespace Library.Models.Books
     public class BookViewModel
     {
         public int? Id { get; set; }
+        public int? InstanceId { get; set; }
         
         [IsbnFormat]
         public string ISBN { get; set; }
@@ -14,7 +15,11 @@ namespace Library.Models.Books
         public string Genre { get; set; }
         public string Description { get; set; }
         public bool? HasCover { get; set; }
-        public uint Count { get; set; }
+
+        [BooksCount]
+        public int Count { get; set; }
+        public DateTime? DeliveryDate { get; set; }
+        public DateTime? ExpectedReturnDate { get; set; }
 
         [ValidateNever]
         public Author? BookAuthor { get; set; }

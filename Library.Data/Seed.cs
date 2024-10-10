@@ -59,7 +59,7 @@ namespace Library.Data
         {
             var booksRepository = service.ServiceProvider.GetService<BooksRepository>()!;
             var authorRepository = service.ServiceProvider.GetService<AuthorsRepository>()!;
-            
+            var bookInstancesRepository = service.ServiceProvider.GetService<BookInstancesRepository>()!;
 
             if (!booksRepository.Any())
             {
@@ -70,9 +70,9 @@ namespace Library.Data
                     Description = "“A novel of education”, where the author traces the life of the main character Philip Carey from childhood to adolescence, from youth to maturity.",
                     ISBN = "978-5-17-062680-9",
                     BookAuthor = authorRepository.GetByLastName("Moem"),
-                    Count = 10,
                 };
-                booksRepository.Create(theBurdenOfHumanPassions);
+                var createdMoemBook = booksRepository.Create(theBurdenOfHumanPassions);
+                bookInstancesRepository.CreateBookInstances(createdMoemBook, 10, bookInstancesRepository);
 
                 var threeComrades = new Book
                 {
@@ -81,9 +81,9 @@ namespace Library.Data
                     Description = "A story about the friendship of three German soldiers after World War I and their shared experiences of love, loss, and hardship.",
                     ISBN = "978-3-423-01368-1",
                     BookAuthor = authorRepository.GetByLastName("Remarque"),
-                    Count = 10,
                 };
-                booksRepository.Create(threeComrades);
+                var createdRemarqueBook = booksRepository.Create(threeComrades);
+                bookInstancesRepository.CreateBookInstances(createdRemarqueBook, 10, bookInstancesRepository);
 
                 var theOldManAndTheSea = new Book
                 {
@@ -92,10 +92,9 @@ namespace Library.Data
                     Description = "A short novel about an old Cuban fisherman who battles with a giant marlin far out in the Gulf Stream, showcasing themes of struggle, resilience, and dignity.",
                     ISBN = "978-0-684-80122-3",
                     BookAuthor = authorRepository.GetByLastName("Hemingway"),
-                    Count = 10,
                 };
-                booksRepository.Create(theOldManAndTheSea);
-
+                var createdHemingwayBook = booksRepository.Create(theOldManAndTheSea);
+                bookInstancesRepository.CreateBookInstances(createdHemingwayBook, 10, bookInstancesRepository);
             }
         }
     }

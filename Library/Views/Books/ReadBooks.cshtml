@@ -30,12 +30,20 @@
                     <div class="content">ISBN:</div> @book.ISBN
                 </div>
                 <div class="count">
-                    <div class="content">Count:</div> @book.Count
+                    <div class="content">Count:</div> 
+                    @if (book.Count > 0)
+                    {
+                        @book.Count
+                    } else
+                    {
+                        <div class="field-validation-error"> Not available </div>
+                    }
+
                 </div>
                 @if((bool)book.HasCover)
                 {
                     <div class="cover-block">
-                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" />
+                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" asp-append-version="true"/>
                     </div>
                 }
 
@@ -46,7 +54,11 @@
                     <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
                     <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
                 }
-                <a class="link" href="/User/Add?bookId=@book.Id"> Add to shelf </a>
+                @if (book.Count > 0)
+                {
+                    <a class="link" href="/User/Add?bookId=@book.Id"> Add to shelf </a>
+                }
+                <a class="link" href="/Books/OpenBookPage?id=@book.Id"> Page </a>
             </div>
         </div>
     }
