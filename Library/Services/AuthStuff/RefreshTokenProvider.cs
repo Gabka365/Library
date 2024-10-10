@@ -7,9 +7,9 @@ namespace Library.Services.AuthStuff
 {
     public class RefreshTokenProvider
     {
-        private IHttpContextAccessor _httpContextAccessor;
-        private AuthService _authService;
-        private UserRepository _userRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly AuthService _authService;
+        private readonly UserRepository _userRepository;
 
         public RefreshTokenProvider(IHttpContextAccessor httpContextAccessor, AuthService authService
             ,UserRepository userRepository)

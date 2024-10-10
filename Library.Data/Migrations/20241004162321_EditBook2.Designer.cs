@@ -4,6 +4,7 @@ using Library.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Data.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241004162321_EditBook2")]
+    partial class EditBook2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,8 +61,11 @@ namespace Library.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookAuthorId")
+                    b.Property<int?>("BookAuthorId")
                         .HasColumnType("int");
+
+                    b.Property<long>("Count")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("datetime2");
@@ -93,35 +99,6 @@ namespace Library.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("Library.Data.Models.BookInstance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeliveryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ExpectedReturnDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BookInstances");
                 });
 
             modelBuilder.Entity("Library.Data.Models.User", b =>
@@ -162,7 +139,7 @@ namespace Library.Data.Migrations
                     b.HasOne("Library.Data.Models.Author", "BookAuthor")
                         .WithMany("Books")
                         .HasForeignKey("BookAuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Library.Data.Models.User", "User")
                         .WithMany("Books")
@@ -174,38 +151,13 @@ namespace Library.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Library.Data.Models.BookInstance", b =>
-                {
-                    b.HasOne("Library.Data.Models.Book", "Book")
-                        .WithMany("Instances")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Library.Data.Models.User", "User")
-                        .WithMany("BookInstances")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Library.Data.Models.Author", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("Library.Data.Models.Book", b =>
-                {
-                    b.Navigation("Instances");
-                });
-
             modelBuilder.Entity("Library.Data.Models.User", b =>
                 {
-                    b.Navigation("BookInstances");
-
                     b.Navigation("Books");
                 });
 #pragma warning restore 612, 618

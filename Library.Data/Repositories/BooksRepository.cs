@@ -16,6 +16,7 @@ namespace Library.Data.Repositories
         {
             return _dbSet
                 .Include(x => x.BookAuthor)
+                .Include(x => x.Instances)
                 .ToList();
         }
 
@@ -23,6 +24,7 @@ namespace Library.Data.Repositories
         {
             return _dbSet
                 .Include(x => x.BookAuthor)
+                .Include(x => x.Instances)
                 .FirstOrDefault(x => x.Id == id);
         }
 
@@ -31,6 +33,26 @@ namespace Library.Data.Repositories
             return _dbSet
                 .Include(x => x.BookAuthor)
                 .FirstOrDefault(x => x.ISBN == ISBN);
+        }
+
+
+        public bool IsExist(string bookName, Author author)
+        {
+            if (_dbSet?.Include(x => x.BookAuthor).Where(x => x.Name.Equals(bookName) && x.BookAuthor.Equals(author)) is not null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public Book GetByAuthorAndName(string bookName, Author author)
+        {
+            return _dbSet?.Include(x => x.BookAuthor)
+                 .FirstOrDefault(x => x.Name == bookName && x.BookAuthor == author);
         }
 
         public void Update(Book book)
@@ -44,6 +66,7 @@ namespace Library.Data.Repositories
             dbModel.Genre = book.Genre; 
             dbModel.BookAuthor.FirstName = book.BookAuthor.FirstName;
             dbModel.BookAuthor.LastName = book.BookAuthor.LastName;
+            dbModel.Instances = book.Instances;
 
             _dbContext.SaveChanges();
         }

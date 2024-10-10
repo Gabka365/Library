@@ -15,7 +15,8 @@ namespace Library.Data.Models
         public string Description { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public DateTime? ExpectedReturnDate  { get; set; }
-        public virtual Author? BookAuthor { get; set; }
+        public virtual Author BookAuthor { get; set; }
+        public virtual List<BookInstance> Instances { get; set; }
         public virtual User? User { get; set; }
     }
 }

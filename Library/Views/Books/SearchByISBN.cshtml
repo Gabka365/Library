@@ -32,7 +32,7 @@
         @if ((bool)Model.HasCover)
         {
             <div class="cover-block">
-                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.SearchedBook.Id).jpg" />
+                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.SearchedBook.Id).jpg" asp-append-version="true" />
             </div>
         }
     </div>

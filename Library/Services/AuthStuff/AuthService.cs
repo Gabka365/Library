@@ -6,8 +6,8 @@ namespace Library.Services.AuthStuff
 {
     public class AuthService
     {
-        private IHttpContextAccessor _httpContextAccessor;
-        private UserRepository _userRepository; 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserRepository _userRepository; 
 
         public AuthService(IHttpContextAccessor httpContextAccessor, UserRepository userRepository)
         {

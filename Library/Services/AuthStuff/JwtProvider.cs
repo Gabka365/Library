@@ -9,7 +9,7 @@ namespace Library.Services.AuthStuff
 {
     public class JwtProvider
     {
-        private JwtOptions _options;
+        private readonly JwtOptions _options;
 
         public JwtProvider(IOptions<JwtOptions> options) 
         {

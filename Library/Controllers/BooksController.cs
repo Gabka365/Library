@@ -9,23 +9,28 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Library.Controllers.ActionFilterAttributes;
 using Library.Services.AuthStuff;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Library.Controllers
 {
     public class BooksController : Controller
     {
-        private BooksRepository _booksRepository;
-        private AuthorsRepository _authorsRepository;
-        private PathHelper _pathHelper;
-        private AuthService _authService;
+        private readonly BooksRepository _booksRepository;
+        private readonly AuthorsRepository _authorsRepository;
+        private readonly PathHelper _pathHelper;
+        private readonly AuthService _authService;
+        private readonly BookInstancesRepository _bookInstancesRepository;
+        private readonly IMemoryCache _cache;
 
         public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository, 
-            PathHelper pathHelper, AuthService authService)
+            PathHelper pathHelper, AuthService authService, BookInstancesRepository bookInstancesRepository, IMemoryCache cache)
         {
             _booksRepository = booksRepository;
             _authorsRepository = authorsRepository;
             _pathHelper = pathHelper;
             _authService = authService;
+            _bookInstancesRepository = bookInstancesRepository;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -43,34 +48,73 @@ namespace Library.Controllers
                 return View(viewModel);
             }
 
-            if (_authorsRepository.GetByLastName(viewModel.BookAuthor.LastName) is null ||
-                _authorsRepository.GetByFirstName(viewModel.BookAuthor.FirstName) is null)
+            var author = _authorsRepository.GetByName(viewModel.BookAuthor.FirstName, viewModel.BookAuthor.LastName);
+            if (author is null)
             {
                 return RedirectToAction("CreateAuthor", "Authors");
             }
 
-            var book = new Book
-            {
-                Name = viewModel.Name,
-                Description = viewModel.Description,
-                ISBN = viewModel.ISBN,
-                Genre = viewModel.Genre,
-                BookAuthor = _authorsRepository.GetByLastName(viewModel.BookAuthor.LastName)
-            };
+            var existingBook = _booksRepository.GetByAuthorAndName(viewModel.Name, author);
 
-            var bookInDb = _booksRepository.Create(book);
-
-            if (viewModel.Cover != null)
+            if (existingBook != null)
             {
-                var path = _pathHelper.GetPathToBookCover(bookInDb.Id);
-                using (var fs = new FileStream(path, FileMode.Create))
+
+                for (int i = 0; i < viewModel.Count; i++)
                 {
-                    viewModel.Cover.CopyTo(fs);
+                    var bookInstance = new BookInstance
+                    {
+                        Book = existingBook
+                    };
+                    _bookInstancesRepository.Create(bookInstance); 
+                }
+            }
+            else
+            {
+                var newBook = new Book
+                {
+                    Name = viewModel.Name,
+                    Description = viewModel.Description,
+                    ISBN = viewModel.ISBN,
+                    Genre = viewModel.Genre,
+                    BookAuthor = author,
+                };
+
+                var createdBook = _booksRepository.Create(newBook);
+
+                for (int i = 0; i < viewModel.Count; i++)
+                {
+                    var bookInstance = new BookInstance
+                    {
+                        Book = createdBook
+                    };
+                    _bookInstancesRepository.Create(bookInstance);  
+                }
+
+                if (viewModel.Cover != null)
+                {
+                    var path = _pathHelper.GetPathToBookCover(createdBook.Id);
+
+                    if (!_cache.TryGetValue(path, out byte[] cachedImage))
+                    {
+                        using (var fs = new FileStream(path, FileMode.Create))
+                        {
+                            viewModel.Cover.CopyTo(fs);
+                        }
+
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            viewModel.Cover.CopyTo(memoryStream);
+                            cachedImage = memoryStream.ToArray();
+                        }
+
+                        _cache.Set(path, cachedImage, TimeSpan.FromMinutes(30));
+                    }
                 }
             }
 
             return RedirectToAction("Books", "Home");
         }
+
 
         public IActionResult ReadBooks()
         {
@@ -157,7 +201,8 @@ namespace Library.Controllers
                 Description = book.Description,
                 ISBN = book.ISBN,
                 Genre = book.Genre,
-                BookAuthor = book.BookAuthor
+                BookAuthor = book.BookAuthor,
+                Count = _bookInstancesRepository.GetCountOfFreeBooks(book),
             };
 
             return View(viewModel);
@@ -171,34 +216,49 @@ namespace Library.Controllers
                 return View(viewModel);
             }
 
-            if (_authorsRepository.GetByLastName(viewModel.BookAuthor.LastName) is null ||
-                _authorsRepository.GetByFirstName(viewModel.BookAuthor.FirstName) is null)
+            var author = _authorsRepository.GetByName(viewModel.BookAuthor.FirstName, viewModel.BookAuthor.LastName);
+            if (author == null)
             {
                 return RedirectToAction("CreateAuthor", "Authors");
             }
 
-            var book = new Book
-            {
-                Id = (int)viewModel.Id,
-                Name = viewModel.Name,
-                Description = viewModel.Description,
-                ISBN = viewModel.ISBN,
-                Genre = viewModel.Genre,
-                BookAuthor = viewModel.BookAuthor
-            };
+            var existingBook = _booksRepository.Get((int)viewModel.Id);
+            var currentCount = _bookInstancesRepository.GetCountOfFreeBooks(existingBook);
 
-           _booksRepository.Update(book);
 
-            
-            if(viewModel.Cover != null)
+            existingBook.Name = viewModel.Name;
+            existingBook.Description = viewModel.Description;
+            existingBook.ISBN = viewModel.ISBN;
+            existingBook.Genre = viewModel.Genre;
+            existingBook.BookAuthor = author;  
+
+            if (viewModel.Count != currentCount)
             {
-                var path = _pathHelper.GetPathToBookCover(book.Id);
-                using (var fs = new FileStream(path, FileMode.Create))
-                {
-                    viewModel.Cover.CopyTo(fs);
-                }
+                _bookInstancesRepository.UpdateBookInstances(existingBook, viewModel.Count, currentCount);
             }
 
+            _booksRepository.Update(existingBook);
+
+            if (viewModel.Cover != null)
+            {
+                var path = _pathHelper.GetPathToBookCover(existingBook.Id);
+
+                if (!_cache.TryGetValue(path, out byte[] cachedImage))
+                {
+                    using (var fs = new FileStream(path, FileMode.Create))
+                    {
+                        viewModel.Cover.CopyTo(fs);
+                    }
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        viewModel.Cover.CopyTo(memoryStream);
+                        cachedImage = memoryStream.ToArray();
+                    }
+
+                    _cache.Set(path, cachedImage, TimeSpan.FromMinutes(30));
+                }
+            }
 
             return RedirectToAction("ReadBooks");
         }
@@ -207,7 +267,23 @@ namespace Library.Controllers
         public IActionResult Delete(int id)
         {
             _booksRepository.Delete(id);
+
+            var path = _pathHelper?.GetPathToBookCover(id);
+
+            _cache.Remove(path);
+
             return RedirectToAction("ReadBooks");
+        }
+
+
+        [HttpGet]
+        public IActionResult OpenBookPage(int id)
+        {
+            var book = _booksRepository.Get(id);
+
+            var viewModel = BuildBookViewModel(book);   
+
+            return View(viewModel);
         }
 
         private BookViewModel BuildBookViewModel(Book book)
@@ -219,7 +295,8 @@ namespace Library.Controllers
                 ISBN = book.ISBN,
                 Genre = book.Genre,
                 BookAuthor = book.BookAuthor,
-                HasCover = _pathHelper.IsBookCoverExist(book.Id)
+                HasCover = _pathHelper.IsBookCoverExist(book.Id),
+                Count = _bookInstancesRepository.GetCountOfFreeBooks(book),
             };
     }
 }

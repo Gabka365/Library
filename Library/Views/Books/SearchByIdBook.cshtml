@@ -2,7 +2,7 @@
 
 
 @section Style {
-    <link href="/css/library.css?v=1.2" rel="stylesheet" />
+    <link href="/css/library.css?v=1.6" rel="stylesheet" />
 }
 
 
@@ -33,7 +33,7 @@
         @if ((bool)Model.HasCover)
         {
             <div class="cover-block">
-                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.Id).jpg" />
+                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.Id).jpg" asp-append-version="true" />
             </div>
         }
     </div>
@@ -49,4 +49,6 @@ else
         Search by id: @Html.TextBoxFor(x => x.Id)
         <input type="submit" value="Search" />
     </form>
+
+    @Html.ValidationMessageFor(x => x.Id)
 }

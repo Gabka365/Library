@@ -1,0 +1,45 @@
+﻿@model Library.Models.Books.BookViewModel
+
+@section Style
+{
+    <link href="/css/library.css?v=1.5" rel="stylesheet"></link>
+}
+
+<div class="personal-data">
+    <div class="id">
+        <div class="content">Id:</div> @Model.Id
+    </div>
+    <div class="name">
+        <div class="content">Name:</div> @Model.Name
+    </div>
+    <div class="genre">
+        <div class="content">Genre:</div> @Model.Genre
+    </div>
+    <div class="Model-author">
+        <div class="content">Author:</div> @(Model.BookAuthor != null ? $"{Model.BookAuthor.FirstName} {Model.BookAuthor.LastName}" : "Unknown Author")
+    </div>
+    <div class="description">
+        <div class="content">Description:</div> @Model.Description
+    </div>
+    <div class="isbn">
+        <div class="content">ISBN:</div> @Model.ISBN
+    </div>
+    <div class="count">
+        <div class="content">Count:</div>
+        @if (Model.Count > 0)
+        {
+            @Model.Count
+        }
+        else
+        {
+            <div class="field-validation-error"> Not available </div>
+        }
+
+    </div>
+    @if ((bool)Model.HasCover)
+    {
+        <div class="cover-block">
+            <div class="content">Cover:</div> <img class="cover-Model" src="/images/book covers/cover-@(Model.Id).jpg" asp-append-version="true" />
+        </div>
+    }
+</div>

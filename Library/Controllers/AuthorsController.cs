@@ -9,7 +9,7 @@ namespace Library.Controllers
 {
     public class AuthorsController : Controller
     {
-        private AuthorsRepository _authorsRepository;
+        private readonly AuthorsRepository _authorsRepository;
 
         public AuthorsController(AuthorsRepository authorsRepository) 
         { 

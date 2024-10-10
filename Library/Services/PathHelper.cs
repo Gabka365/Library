@@ -4,7 +4,7 @@ namespace Library.Services
 {
     public class PathHelper
     {
-        private IWebHostEnvironment _webHostEnviroment;
+        private readonly IWebHostEnvironment _webHostEnviroment;
 
         public PathHelper(IWebHostEnvironment webHostEnviroment)
         {

@@ -1,4 +1,4 @@
-﻿@model Library.Models.Books.ReadBooksViewModel
+﻿@model Library.Models.User.UserBooksViewModel
 
 
 @section Style
@@ -7,7 +7,7 @@
 }
 
 <div class="books">
-    @foreach (var book in Model.Books)
+    @foreach (var book in Model.BookInstances)
     {
         <div class="book">
             <div class="personal-data">
@@ -22,42 +22,29 @@
                 </div>
                 <div class="book-author">
                     <div class="content">Author:</div> @(book.BookAuthor != null ? $"{book.BookAuthor.FirstName} {book.BookAuthor.LastName}" : "Unknown Author")
-                </div> 
+                </div>
                 <div class="description">
                     <div class="content">Description:</div> @book.Description
                 </div>
                 <div class="isbn">
                     <div class="content">ISBN:</div> @book.ISBN
                 </div>
-                <div class="count">
-                    <div class="content">Count:</div> 
-                    @if (book.Count > 0)
-                    {
-                        @book.Count
-                    } else
-                    {
-                        <div class="field-validation-error"> Not available </div>
-                    }
-
+                <div class="date-start">
+                    <div class="content">Delivery date:</div> @book.DeliveryDate
                 </div>
-                @if((bool)book.HasCover)
+                <div class="date-start">
+                    <div class="content">Expected return date:</div> @book.ExpectedReturnDate
+                </div>
+                @if ((bool)book.HasCover)
                 {
                     <div class="cover-block">
-                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" asp-append-version="true"/>
+                        <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(book.Id).jpg" asp-append-version="true" />
                     </div>
                 }
 
             </div>
             <div class="crud-functionality">
-                @if (Model.IsAdmin)
-                {
-                    <a class="link" href="/Books/UpdateBook?id=@book.Id"> Update information </a>
-                    <a class="link" href="/Books/Delete?id=@book.Id"> Delete this book </a>
-                }
-                @if (book.Count > 0)
-                {
-                    <a class="link" href="/User/Add?bookId=@book.Id"> Add to shelf </a>
-                }
+                <a class="link" href="/User/Return?instanceId=@book.InstanceId"> Return book </a>
                 <a class="link" href="/Books/OpenBookPage?id=@book.Id"> Page </a>
             </div>
         </div>

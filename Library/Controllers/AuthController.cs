@@ -10,10 +10,10 @@ namespace Library.Controllers
 {
     public class AuthController : Controller
     {
-        private PasswordHasher _passwordHasher;
-        private UserRepository _userRepository;
-        private JwtProvider _jwtProvider;
-        private RefreshTokenProvider _refreshTokenProvider;
+        private readonly PasswordHasher _passwordHasher;
+        private readonly UserRepository _userRepository;
+        private readonly JwtProvider _jwtProvider;
+        private readonly RefreshTokenProvider _refreshTokenProvider;
 
         public AuthController(PasswordHasher passwordHasher, UserRepository userRepository, 
             JwtProvider jwtProvider, RefreshTokenProvider refreshTokenProvider) 
