@@ -75,7 +75,7 @@ namespace Library.Controllers
             var result = _passwordHasher.Verify(viewModel.Password, user.HashedPassword);
             if (result is false)
             {
-                throw new Exception("Failed to login");
+                return View(viewModel);
             }
 
             var token = _jwtProvider.GenerateToken(user);
