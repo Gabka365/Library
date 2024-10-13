@@ -1,7 +1,7 @@
 ﻿using Library.Data.Models;
-using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
 using Library.Models.Auth;
-using Library.Services.AuthStuff;
+using Library.Services.AuthStuff.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Library.Data.Enums;
@@ -10,13 +10,13 @@ namespace Library.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly PasswordHasher _passwordHasher;
-        private readonly UserRepository _userRepository;
-        private readonly JwtProvider _jwtProvider;
-        private readonly RefreshTokenProvider _refreshTokenProvider;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly IUserRepository _userRepository;
+        private readonly IJwtProvider _jwtProvider;
+        private readonly IRefreshTokenProvider _refreshTokenProvider;
 
-        public AuthController(PasswordHasher passwordHasher, UserRepository userRepository, 
-            JwtProvider jwtProvider, RefreshTokenProvider refreshTokenProvider) 
+        public AuthController(IPasswordHasher passwordHasher, IUserRepository userRepository, 
+            IJwtProvider jwtProvider, IRefreshTokenProvider refreshTokenProvider) 
         {
             _passwordHasher = passwordHasher;
             _userRepository = userRepository;

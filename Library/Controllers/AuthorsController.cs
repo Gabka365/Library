@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
 using Library.Data.Models;
 using Library.Models.Authors;
 using Library.Models.Common;
@@ -9,9 +9,9 @@ namespace Library.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly AuthorsRepository _authorsRepository;
+        private readonly IAuthorsRepository _authorsRepository;
 
-        public AuthorsController(AuthorsRepository authorsRepository) 
+        public AuthorsController(IAuthorsRepository authorsRepository) 
         { 
             _authorsRepository = authorsRepository; 
         }

@@ -1,4 +1,5 @@
 ﻿using Library.Data.Models;
+using Library.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Repositories
 {
-    public abstract class BaseRepository<DbModel> where DbModel : BaseModel
+    public abstract class BaseRepository<DbModel> : IBaseRepository<DbModel> where DbModel : BaseModel
     {
         protected readonly LibraryDbContext _dbContext;
         protected readonly DbSet<DbModel> _dbSet;
@@ -16,7 +17,7 @@ namespace Library.Data.Repositories
         public BaseRepository(LibraryDbContext dbContext)
         {
             _dbContext = dbContext;
-            _dbSet = dbContext.Set<DbModel>(); 
+            _dbSet = dbContext.Set<DbModel>();
         }
 
         public virtual List<DbModel> GetAll()
@@ -52,6 +53,6 @@ namespace Library.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        
+
     }
 }

@@ -12,12 +12,14 @@ namespace Library.Data
     {
         public const string CONNECTION_STRING = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Database=Library";
         
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<BookInstance> BookInstances { get; set; }
 
         public LibraryDbContext() {}
+
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options) {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

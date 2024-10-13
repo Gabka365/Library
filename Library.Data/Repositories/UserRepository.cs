@@ -1,4 +1,5 @@
 ﻿using Library.Data.Models;
+using Library.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Repositories
 {
-    public class UserRepository : BaseRepository<User>
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         public UserRepository(LibraryDbContext dbContext) : base(dbContext) { }
 
-        public User? GetByUsername(string username) 
-        { 
-            return _dbSet.FirstOrDefault(x => x.Name == username); 
+        public User? GetByUsername(string username)
+        {
+            return _dbSet.FirstOrDefault(x => x.Name == username);
         }
 
         public override User? Get(int? id)
@@ -39,7 +40,7 @@ namespace Library.Data.Repositories
         }
 
         public void Update(User user)
-        { 
+        {
             var dbModel = Get(user.Id);
 
             dbModel.Id = user.Id;
@@ -50,7 +51,7 @@ namespace Library.Data.Repositories
             dbModel.TokenExpires = user.TokenExpires;
             dbModel.Books = user.Books;
 
-            _dbContext.SaveChanges();   
+            _dbContext.SaveChanges();
         }
 
     }

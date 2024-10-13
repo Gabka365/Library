@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Data.Models;
+using Library.Data.Repositories.Interfaces;
 
 namespace Library.Data.Repositories
 {
-    public class AuthorsRepository : BaseRepository<Author>
+    public class AuthorsRepository : BaseRepository<Author>, IAuthorsRepository
     {
         public AuthorsRepository(LibraryDbContext db) : base(db) { }
-        
+
         public void Update(Author author)
         {
             var dbModel = Get(author.Id);

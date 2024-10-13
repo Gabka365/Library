@@ -1,4 +1,5 @@
 ﻿using Library.Data.Models;
+using Library.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Repositories
 {
-    public class BooksRepository : BaseRepository<Book>
+    public class BooksRepository : BaseRepository<Book>, IBooksRepository
     {
-        public BooksRepository(LibraryDbContext dbContext) : base(dbContext) {  }
+        public BooksRepository(LibraryDbContext dbContext) : base(dbContext) { }
 
         public override List<Book> GetAll()
         {
@@ -63,7 +64,7 @@ namespace Library.Data.Repositories
             dbModel.ISBN = book.ISBN;
             dbModel.Name = book.Name;
             dbModel.Description = book.Description;
-            dbModel.Genre = book.Genre; 
+            dbModel.Genre = book.Genre;
             dbModel.BookAuthor.FirstName = book.BookAuthor.FirstName;
             dbModel.BookAuthor.LastName = book.BookAuthor.LastName;
             dbModel.Instances = book.Instances;

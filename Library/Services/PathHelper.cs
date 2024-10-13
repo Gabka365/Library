@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Library.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Library.Services
 {
-    public class PathHelper
+    public class PathHelper : IPathHelper
     {
         private readonly IWebHostEnvironment _webHostEnviroment;
 

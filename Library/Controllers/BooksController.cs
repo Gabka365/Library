@@ -4,26 +4,27 @@ using Library.Models.Books;
 using Microsoft.AspNetCore.Mvc;
 using Library.Models.Common;
 using Library.Data.Models;
-using Library.Services;
+using Library.Services.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Library.Controllers.ActionFilterAttributes;
-using Library.Services.AuthStuff;
+using Library.Services.AuthStuff.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Library.Data.Repositories.Interfaces;
 
 namespace Library.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly BooksRepository _booksRepository;
-        private readonly AuthorsRepository _authorsRepository;
-        private readonly PathHelper _pathHelper;
-        private readonly AuthService _authService;
-        private readonly BookInstancesRepository _bookInstancesRepository;
+        private readonly IBooksRepository _booksRepository;
+        private readonly IAuthorsRepository _authorsRepository;
+        private readonly IPathHelper _pathHelper;
+        private readonly IAuthService _authService;
+        private readonly IBookInstancesRepository _bookInstancesRepository;
         private readonly IMemoryCache _cache;
 
-        public BooksController(BooksRepository booksRepository, AuthorsRepository authorsRepository, 
-            PathHelper pathHelper, AuthService authService, BookInstancesRepository bookInstancesRepository, IMemoryCache cache)
+        public BooksController(IBooksRepository booksRepository, IAuthorsRepository authorsRepository, 
+            IPathHelper pathHelper, IAuthService authService, IBookInstancesRepository bookInstancesRepository, IMemoryCache cache)
         {
             _booksRepository = booksRepository;
             _authorsRepository = authorsRepository;

@@ -1,4 +1,5 @@
 ﻿using Library.Data.Models;
+using Library.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Library.Data.Repositories
 {
-    public class BookInstancesRepository : BaseRepository<BookInstance>
+    public class BookInstancesRepository : BaseRepository<BookInstance>, IBookInstancesRepository
     {
         public BookInstancesRepository(LibraryDbContext dbContext) : base(dbContext) { }
 
@@ -18,7 +19,7 @@ namespace Library.Data.Repositories
             return _dbContext.BookInstances.Where(bi => bi.Book.Id == book.Id).ToList();
         }
 
-        public void CreateBookInstances(Book book, int count, BookInstancesRepository bookInstancesRepository)
+        public void CreateBookInstances(Book book, int count, IBookInstancesRepository bookInstancesRepository)
         {
             for (int i = 0; i < count; i++)
             {
@@ -67,8 +68,8 @@ namespace Library.Data.Repositories
             dbModel.Book = instance.Book;
             dbModel.ExpectedReturnDate = instance.ExpectedReturnDate;
             dbModel.DeliveryDate = instance.DeliveryDate;
-            
-            _dbContext.SaveChanges();   
+
+            _dbContext.SaveChanges();
         }
 
         public int GetCountOfFreeBooks(Book book)
@@ -85,7 +86,7 @@ namespace Library.Data.Repositories
                 .Include(i => i.User)
                 .Include(i => i.Book)
                 .FirstOrDefault(i => i.Id == instanceId);
-                
+
         }
 
     }
