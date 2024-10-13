@@ -26,8 +26,11 @@
                 </div>
             </div>
             <div class="crud-functionality">
-                <a href="/Authors/UpdateAuthor?id=@author.Id"> Update information </a>
-                <a href="/Authors/Delete?id=@author.Id"> Delete this author </a>
+                @if (Model.IsAdmin)
+                {
+                    <a href="/Authors/UpdateAuthor?id=@author.Id"> Update information </a>
+                    <a href="/Authors/Delete?id=@author.Id"> Delete this author </a>
+                }
             </div>
         </div>
     }
