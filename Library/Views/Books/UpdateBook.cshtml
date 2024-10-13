@@ -40,11 +40,11 @@
             Author last name: @Html.TextBoxFor(x => x.BookAuthor.LastName)
         </div>
         <div>
-            Cover: <input type="file" name="@nameof(Model.Cover)" accept="image/png, image/jpeg" />
+            Cover: <input class="btn btn-secondary" type="file" name="@nameof(Model.Cover)" accept="image/png, image/jpeg" />
             @Html.ValidationMessageFor(x => x.Cover)
         </div>
         <div>
-            <input type="submit" value="Update" />
+            <input class="btn btn-primary" type="submit" value="Update" />
         </div>
     </div>
 </form>

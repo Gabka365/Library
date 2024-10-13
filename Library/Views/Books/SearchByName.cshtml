@@ -47,7 +47,7 @@ else
 
     <form class="search-by-name" action="/Books/SearchByName" method="post">
         Search by name: @Html.TextBoxFor(x => x.Name)
-        <input type="submit" value="Search" />
+        <input class="btn btn-primary" type="submit" value="Search" />
     </form>
 
     @Html.ValidationMessageFor(x => x.Name)

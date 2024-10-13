@@ -47,7 +47,7 @@ else
 
     <form class="search-by-id" action="/Books/SearchByIdBook" method="post">
         Search by id: @Html.TextBoxFor(x => x.Id)
-        <input type="submit" value="Search" />
+        <input class="btn btn-primary" type="submit" value="Search" />
     </form>
 
     @Html.ValidationMessageFor(x => x.Id)

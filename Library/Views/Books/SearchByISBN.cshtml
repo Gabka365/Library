@@ -43,7 +43,7 @@ else
 
     <form class="search-by-id" action="/Books/SearchByISBN" method="post">
         Search by ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
-        <input type="submit" value="Search" />
+        <input class="btn btn-primary" type="submit" value="Search" />
         @Html.ValidationMessageFor(x => x.ISBN)
     </form>
 }
