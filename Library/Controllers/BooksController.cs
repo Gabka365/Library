@@ -116,7 +116,7 @@ namespace Library.Controllers
             return RedirectToAction("Books", "Home");
         }
 
-
+        [HttpGet]
         public IActionResult ReadBooks()
         {
             var booksViewModels = _booksRepository

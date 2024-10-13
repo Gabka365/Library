@@ -4,18 +4,23 @@ using Library.Data.Models;
 using Library.Models.Authors;
 using Library.Models.Common;
 using System.Security.Claims;
+using Library.Controllers.ActionFilterAttributes;
+using Library.Services.AuthStuff.Interfaces;
 
 namespace Library.Controllers
 {
     public class AuthorsController : Controller
     {
         private readonly IAuthorsRepository _authorsRepository;
+        private readonly IAuthService _authService;
 
-        public AuthorsController(IAuthorsRepository authorsRepository) 
+        public AuthorsController(IAuthorsRepository authorsRepository, IAuthService authService) 
         { 
             _authorsRepository = authorsRepository; 
+            _authService = authService;
         }
 
+        [HttpGet]
         public IActionResult ReadAuthors()
         {
             var authorsViewModel = _authorsRepository
@@ -25,13 +30,15 @@ namespace Library.Controllers
 
             var viewModel = new ReadAuthorsViewModel
             {
-                authors = authorsViewModel
+                authors = authorsViewModel,
+                IsAdmin = _authService.IsAdmin()
             };
 
             return View(viewModel);
         }
 
         [HttpGet]
+        [IsAdmin]
         public IActionResult CreateAuthor()
         {
             return View();

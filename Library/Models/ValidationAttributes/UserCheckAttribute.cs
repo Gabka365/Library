@@ -1,4 +1,4 @@
-﻿using Library.Data.Repositories;
+﻿using Library.Data.Repositories.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
@@ -24,7 +24,7 @@ namespace Library.Models.ValidationAttributes
 
             var userName = (string)value;
 
-            var userRepository = (UserRepository)validationContext.GetService(typeof(UserRepository));
+            var userRepository = (IUserRepository)validationContext.GetService(typeof(IUserRepository));
 
             if (userRepository == null)
             {
