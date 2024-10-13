@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Library.Data\Library.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\book covers\" />
+  </ItemGroup>
+
 </Project>

@@ -270,15 +270,18 @@ namespace Library.Controllers
 
             if (viewModel.Cover != null)
             {
-                var path = _pathHelper.GetPathToBookCover(existingBook.Id);
+                
+                var path = _pathHelper?.GetPathToBookCover(existingBook.Id);
+                
+                System.IO.File.Delete(path);
+
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    viewModel.Cover.CopyTo(fs);
+                }
 
                 if (!_cache.TryGetValue(path, out byte[] cachedImage))
-                {
-                    using (var fs = new FileStream(path, FileMode.Create))
-                    {
-                        viewModel.Cover.CopyTo(fs);
-                    }
-
+                { 
                     using (var memoryStream = new MemoryStream())
                     {
                         viewModel.Cover.CopyTo(memoryStream);
@@ -295,11 +298,15 @@ namespace Library.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            
             _booksRepository.Delete(id);
 
             var path = _pathHelper?.GetPathToBookCover(id);
 
+            
+            System.IO.File.Delete(path);
             _cache.Remove(path);
+            
 
             return RedirectToAction("ReadBooks");
         }
