@@ -1,0 +1,54 @@
+﻿@model Library.Models.Books.SearchByNameViewModel
+
+
+@section Style {
+    <link href="/css/library.css?v=1.6" rel="stylesheet" />
+}
+
+
+@if (Model.SearchedBook is not null)
+{
+    <h2> Searched book </h2>
+
+
+    <div class="book">
+        <div>
+            <div class="content">Id:</div> @Model.SearchedBook.Id
+        </div>
+        <div>
+            <div class="content">Name:</div> @Model.SearchedBook.Name
+        </div>
+        <div>
+            <div class="content">Genre:</div> @Model.SearchedBook.Genre
+        </div>
+        <div>
+            <div class="content">Description:</div> @Model.SearchedBook.Description
+        </div>
+        <div>
+            <div class="content">Author's name:</div> @(Model.SearchedBook.BookAuthor != null ? $"{Model.SearchedBook.BookAuthor.FirstName} {Model.SearchedBook.BookAuthor.LastName}" : "Unknown Author")
+        </div>
+        <div>
+            <div class="content">ISBN:</div> @Model.SearchedBook.ISBN
+        </div>
+        @if ((bool)Model.HasCover)
+        {
+            <div class="cover-block">
+                <div class="content">Cover:</div> <img class="cover-book" src="/images/book covers/cover-@(Model.SearchedBook.Id).jpg" asp-append-version="true" />
+            </div>
+        }
+    </div>
+
+
+
+}
+else
+{
+    <h2> Search book by name </h2>
+
+    <form class="search-by-name" action="/Books/SearchByName" method="post">
+        Search by name: @Html.TextBoxFor(x => x.Name)
+        <input type="submit" value="Search" />
+    </form>
+
+    @Html.ValidationMessageFor(x => x.Name)
+}
