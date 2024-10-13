@@ -36,6 +36,12 @@ namespace Library.Data.Repositories
                 .FirstOrDefault(x => x.ISBN == ISBN);
         }
 
+        public Book? GetByName(string bookName)
+        {
+            return _dbSet
+                .Include(x => x.BookAuthor)
+                .FirstOrDefault(x => x.Name == bookName);
+        }
 
         public bool IsExist(string bookName, Author author)
         {

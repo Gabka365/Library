@@ -191,6 +191,34 @@ namespace Library.Controllers
         }
 
         [HttpGet]
+        public IActionResult SearchByName()
+        {
+            var viewModel = new SearchByNameViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SearchByName(SearchByNameViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var book = _booksRepository.GetByName(viewModel.Name);
+
+            if (book == null)
+            {
+                return View(viewModel);
+            }
+
+            viewModel.SearchedBook = book;
+            viewModel.HasCover = _pathHelper.IsBookCoverExist(book.Id);
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
         public IActionResult UpdateBook(int id)
         {
             var book = _booksRepository.Get(id);

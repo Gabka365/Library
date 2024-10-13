@@ -1,14 +1,15 @@
-﻿@model Library.Models.Books.SearchByIsbnViewModel
+﻿@model Library.Models.Books.SearchByNameViewModel
 
 
 @section Style {
-    <link href="/css/library.css?v=1.2" rel="stylesheet" />
+    <link href="/css/library.css?v=1.6" rel="stylesheet" />
 }
 
 
 @if (Model.SearchedBook is not null)
 {
     <h2> Searched book </h2>
+
 
     <div class="book">
         <div>
@@ -36,14 +37,18 @@
             </div>
         }
     </div>
+
+
+
 }
 else
 {
-    <h2> Search book by ISBN </h2>
+    <h2> Search book by name </h2>
 
-    <form class="search-by-id" action="/Books/SearchByISBN" method="post">
-        Search by ISBN (000-0-000-00000-0 with only numbers is required format): @Html.TextBoxFor(x => x.ISBN)
+    <form class="search-by-name" action="/Books/SearchByName" method="post">
+        Search by name: @Html.TextBoxFor(x => x.Name)
         <input class="btn btn-primary" type="submit" value="Search" />
-        @Html.ValidationMessageFor(x => x.ISBN)
     </form>
+
+    @Html.ValidationMessageFor(x => x.Name)
 }

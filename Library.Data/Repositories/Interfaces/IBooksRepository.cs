@@ -7,6 +7,7 @@ namespace Library.Data.Repositories.Interfaces
         Book? Get(int? id);
         List<Book> GetAll();
         Book GetByAuthorAndName(string bookName, Author author);
+        Book? GetByName(string name);
         Book? GetByISBN(string ISBN);
         bool IsExist(string bookName, Author author);
         void Update(Book book);

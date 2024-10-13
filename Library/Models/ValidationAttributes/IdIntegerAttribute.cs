@@ -16,13 +16,23 @@ namespace Library.Models.ValidationAttributes
 
         public override bool IsValid(object? value)
         {
-            if (value is not string)
+            
+            if (value == null)
             {
-                throw new ArgumentException($"Wrong type for validation. {nameof(IsbnFormatAttribute)} can work only with string");
+                return true; 
             }
 
             
-            return value is int;
+            if (value is string stringValue)
+            {
+                if (int.TryParse(stringValue, out _))
+                {
+                    return true; 
+                }
+                return false;
+            }
+
+            return false;
         }
     }
 }
