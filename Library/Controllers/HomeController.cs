@@ -1,6 +1,6 @@
 using Library.Data.Repositories;
 using Library.Models.Home;
-using Library.Services.AuthStuff;
+using Library.Services.AuthStuff.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -10,12 +10,13 @@ namespace Library.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly AuthService _authService;
-        private readonly JwtProvider _jwtProvider;
-        private readonly RefreshTokenProvider _refreshTokenProvider;
+        private readonly IAuthService _authService;
+        private readonly IJwtProvider _jwtProvider;
+        private readonly IRefreshTokenProvider _refreshTokenProvider;
 
 
-        public HomeController(ILogger<HomeController> logger, AuthService authService, JwtProvider jwtProvider, RefreshTokenProvider refreshTokenProvider)
+        public HomeController(ILogger<HomeController> logger, IAuthService authService, 
+            IJwtProvider jwtProvider, IRefreshTokenProvider refreshTokenProvider)
         {
             _logger = logger;
             _authService = authService;

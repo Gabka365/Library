@@ -1,9 +1,12 @@
 using Library.CustomMiddlewareServices;
 using Library.Data;
 using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
 using Library.Models.ValidationAttributes;
 using Library.Services;
 using Library.Services.AuthStuff;
+using Library.Services.AuthStuff.Interfaces;
+using Library.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -15,15 +18,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<LibraryDbContext>();
-builder.Services.AddScoped<AuthorsRepository>();
-builder.Services.AddScoped<BooksRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<BookInstancesRepository>();
-builder.Services.AddSingleton<PathHelper>();
-builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddScoped<JwtProvider>();
-builder.Services.AddScoped<RefreshTokenProvider>();
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookInstancesRepository, BookInstancesRepository>();
+builder.Services.AddSingleton<IPathHelper, PathHelper>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IRefreshTokenProvider, RefreshTokenProvider>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 

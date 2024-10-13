@@ -1,15 +1,16 @@
 ﻿using Library.Data.Enums;
 using Library.Data.Models;
-using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
+using Library.Services.AuthStuff.Interfaces;
 
 namespace Library.Services.AuthStuff
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly UserRepository _userRepository; 
+        private readonly IUserRepository _userRepository;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, UserRepository userRepository)
+        public AuthService(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
@@ -45,7 +46,7 @@ namespace Library.Services.AuthStuff
             return _httpContextAccessor.HttpContext!.User.Identity?.IsAuthenticated ?? false;
         }
 
-        private string GetClaimValue(string claimType) 
+        private string GetClaimValue(string claimType)
          => _httpContextAccessor
             .HttpContext!
             .User

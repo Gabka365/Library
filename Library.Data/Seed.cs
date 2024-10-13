@@ -1,5 +1,5 @@
 ﻿using Library.Data.Models;
-using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Library.Data
 
         private void FillAuthors(IServiceScope service)
         {
-            var authorsRepository = service.ServiceProvider.GetService<AuthorsRepository>()!;
+            var authorsRepository = service.ServiceProvider.GetService<IAuthorsRepository>()!;
 
             if (!authorsRepository.Any())
             {
@@ -57,9 +57,9 @@ namespace Library.Data
 
         private void FillBooks(IServiceScope service)
         {
-            var booksRepository = service.ServiceProvider.GetService<BooksRepository>()!;
-            var authorRepository = service.ServiceProvider.GetService<AuthorsRepository>()!;
-            var bookInstancesRepository = service.ServiceProvider.GetService<BookInstancesRepository>()!;
+            var booksRepository = service.ServiceProvider.GetService<IBooksRepository>()!;
+            var authorRepository = service.ServiceProvider.GetService<IAuthorsRepository>()!;
+            var bookInstancesRepository = service.ServiceProvider.GetService<IBookInstancesRepository>()!;
 
             if (!booksRepository.Any())
             {

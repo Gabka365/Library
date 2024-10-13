@@ -1,7 +1,7 @@
 ﻿using Library.Data.Models;
-using Library.Data.Repositories;
+using Library.Data.Repositories.Interfaces;
 using Library.Models.Books;
-using Library.Services.AuthStuff;
+using Library.Services.AuthStuff.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Library.Services;
@@ -11,14 +11,14 @@ namespace Library.Controllers
 {
     public class UserController : Controller
     {
-        private readonly AuthService _authService;
-        private readonly BooksRepository _booksRepository;
-        private readonly UserRepository _userRepository;
-        private readonly Services.PathHelper _pathHelper;
-        private readonly BookInstancesRepository _bookInstancesRepository;
+        private readonly IAuthService _authService;
+        private readonly IBooksRepository _booksRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly Services.Interfaces.IPathHelper _pathHelper;
+        private readonly IBookInstancesRepository _bookInstancesRepository;
 
-        public UserController(AuthService authService, BooksRepository booksRepository, 
-            UserRepository userRepository, Services.PathHelper pathHelper, BookInstancesRepository bookInstancesRepository) 
+        public UserController(IAuthService authService, IBooksRepository booksRepository, 
+            IUserRepository userRepository, Services.Interfaces.IPathHelper pathHelper, IBookInstancesRepository bookInstancesRepository) 
         {
             _authService = authService;
             _booksRepository = booksRepository;
@@ -27,7 +27,7 @@ namespace Library.Controllers
             _bookInstancesRepository = bookInstancesRepository;
         }
 
-
+        [HttpGet]
         public IActionResult UserBooks()
         {
             var user = _authService.GetUser();

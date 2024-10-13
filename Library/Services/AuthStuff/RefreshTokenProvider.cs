@@ -2,21 +2,23 @@
 using Library.Data.Repositories;
 using Library.Data.Models;
 using System.Security.Cryptography;
+using Library.Services.AuthStuff.Interfaces;
+using Library.Data.Repositories.Interfaces;
 
 namespace Library.Services.AuthStuff
 {
-    public class RefreshTokenProvider
+    public class RefreshTokenProvider : IRefreshTokenProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly AuthService _authService;
-        private readonly UserRepository _userRepository;
+        private readonly IAuthService _authService;
+        private readonly IUserRepository _userRepository;
 
-        public RefreshTokenProvider(IHttpContextAccessor httpContextAccessor, AuthService authService
-            ,UserRepository userRepository)
+        public RefreshTokenProvider(IHttpContextAccessor httpContextAccessor, IAuthService authService
+            , IUserRepository userRepository)
         {
-            _httpContextAccessor = httpContextAccessor; 
+            _httpContextAccessor = httpContextAccessor;
             _authService = authService;
-            _userRepository = userRepository;   
+            _userRepository = userRepository;
         }
 
         public RefreshToken GenerateRefreshToken()

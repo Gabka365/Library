@@ -4,14 +4,15 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Security.Claims;
+using Library.Services.AuthStuff.Interfaces;
 
 namespace Library.Services.AuthStuff
 {
-    public class JwtProvider
+    public class JwtProvider : IJwtProvider
     {
         private readonly JwtOptions _options;
 
-        public JwtProvider(IOptions<JwtOptions> options) 
+        public JwtProvider(IOptions<JwtOptions> options)
         {
             _options = options.Value;
         }
