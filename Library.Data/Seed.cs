@@ -1,4 +1,6 @@
-﻿using Library.Data.Models;
+﻿using BCrypt.Net;
+using Library.Data.Models;
+using Library.Data.Repositories;
 using Library.Data.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +20,7 @@ namespace Library.Data
 
             FillAuthors(service);
             FillBooks(service);
+            FillUsers(service);
         }
 
         private void FillAuthors(IServiceScope service)
@@ -96,6 +99,24 @@ namespace Library.Data
                 var createdHemingwayBook = booksRepository.Create(theOldManAndTheSea);
                 bookInstancesRepository.CreateBookInstances(createdHemingwayBook, 10, bookInstancesRepository);
             }
+        }
+
+
+        private void FillUsers(IServiceScope service)
+        {
+            var userRepository = service.ServiceProvider.GetService<IUserRepository>()!;
+
+            if (!userRepository.Any())
+            {
+                var admin = new User
+                {
+                    Name = "admin",
+                    HashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword("admin"),
+                    UserRole = Enums.UserRole.Admin,
+                };
+                userRepository.Create(admin);
+            }
+
         }
     }
 }
