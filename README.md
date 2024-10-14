@@ -2,7 +2,7 @@
 1) Клонировать репозиторий;
 2) Переключиться на проект Library.Data;
 3) В "Package Manager Console" ввести команду "update-database";
-4) Запустить проект.
+4) Запустить проект Library.
 
 По умолчанию есть пользователь admin:
 1) login: "admin";
