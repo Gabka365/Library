@@ -71,7 +71,7 @@ namespace Library.Data
                     Name = "The burden of human passions",
                     Genre = "Fiction novel",
                     Description = "“A novel of education”, where the author traces the life of the main character Philip Carey from childhood to adolescence, from youth to maturity.",
-                    ISBN = "978-5-17-062680-9",
+                    ISBN = "978-5-173-02680-9",
                     BookAuthor = authorRepository.GetByLastName("Moem"),
                 };
                 var createdMoemBook = booksRepository.Create(theBurdenOfHumanPassions);
